@@ -16,4 +16,18 @@ RSpec.describe User, type: :model do
       expect(user.errors.keys).to include(:email)
   end
 
+  before do
+    @user = User.create(username: "moo", email: "goats@coats.com")
+    @other_user = @user.dup
+    @other_user.save
+  end
+
+  it "requires that a username be unique" do
+    expect(@other_user).to_not be_valid
+  end
+
+  it "requires that a email be unique" do
+    expect(@other_user).to_not be_valid
+  end
+
 end
