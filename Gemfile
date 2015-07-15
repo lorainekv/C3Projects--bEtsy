@@ -28,7 +28,6 @@ gem 'bcrypt'
 gem 'bootstrap-sass', '~> 3.3.5'
 
 
-gem 'rspec-rails', '~> 3.0'
 
 gem 'pry-rails', :group => :development
 
@@ -57,4 +56,5 @@ group :development, :test do
 
   gem "binding_of_caller"
 
+  gem 'rspec-rails', '~> 3.0'
 end
