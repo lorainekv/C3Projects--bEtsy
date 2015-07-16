@@ -6,3 +6,8 @@
 <p><%= image_tag @product.photo_url %></p>
 <p>Merchant: <%= @product.user.username %></p>
 <p>Category: <%= @product.name %></p>
+
+<!-- reviews go here
+ -->
+<%= link_to "Leave a Review", new_product_review_path(@product) %>
+<%= link_to "Add to Cart", new_item_path(@product) %>
