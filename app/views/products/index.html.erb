@@ -1,11 +1,11 @@
 <h1>All Products</h1>
 <% @products.each do |product| %>
-<p><%= product.name %></p>
-<p><%= image_tag("product.photo_url")%></p>
+<p><%= link_to product.name, product_path(product) %></p>
+<p><%= image_tag(product.photo_url)%></p>
 <p><%= product.price %></p>
 <p><%= product.stock %></p>
-<p><%= product.user %></p>
-<p><%= product.rating %></p>
+<p><%= product.user.username %></p>
 <p><%= product.reviews %></p>
 <p><%= product.category.name %></p>
 <% end %>
+<p><%= link_to "Go Home", root_path%></p>
