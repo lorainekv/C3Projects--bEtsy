@@ -23,6 +23,13 @@ Rails.application.routes.draw do
     resources :order_items, except: [:show]
   end
 
+  get   "/cart" => 'order_items#index', as: 'cart'
+  get   "/cart/:product_id/new" => 'order_items#new', as: 'new_item'
+  post  "/cart" => 'order_items#create'
+  patch "/cart/:id/edit" => 'order_items#edit', as: 'edit_item'
+  delete "/cart/:id" => 'order_items#destroy', as: 'delete_item'
+
+
 
 
 
