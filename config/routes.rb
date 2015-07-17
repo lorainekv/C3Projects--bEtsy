@@ -19,13 +19,12 @@ Rails.application.routes.draw do
     resources :products, only: [:index]
   end
 
-  resources :orders, except: [:destroy] do
-    resources :order_items, except: [:show]
-  end
+  resources :orders, except: [:destroy]
+
 
   get   "/cart" => 'order_items#index', as: 'cart'
   get   "/cart/:product_id/new" => 'order_items#new', as: 'new_item'
-  post  "/cart" => 'order_items#create'
+  post  "/cart" => 'order_items#create', as: 'order_items'
   patch "/cart/:id/edit" => 'order_items#edit', as: 'edit_item'
   delete "/cart/:id" => 'order_items#destroy', as: 'delete_item'
 

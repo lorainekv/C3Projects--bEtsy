@@ -1,6 +1,8 @@
 <h1>Your Cart</h1>
 
 <% @order_items.each do |item| %>
-  <%= item %>
-  <%= item.quantity %>
+  <p>Product: <%= item.product.name %></p>
+  <p>Quantity: <%= item.quantity %></p>
 <% end %>
+
+<%= link_to "Continue Shopping", products_path %>
