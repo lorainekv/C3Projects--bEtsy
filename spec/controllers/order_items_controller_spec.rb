@@ -26,4 +26,22 @@ RSpec.describe OrderItemsController, type: :controller do
       expect(subject).to render_template(:new)
     end
   end
+
+  describe "POST create" do
+    let (:params) do {order_item: {id: 1, name: "a name", quantity: 1, product_id: 1 }}
+    end
+
+    it "creates a new OrderItem" do
+      post :create, params
+
+      expect(OrderItem.count).to eq 1
+    end
+
+    it "redirects to the cart index page" do
+        post :create, params
+
+        expect(subject).to redirect_to(cart_path)
+      end
+
+  end
 end

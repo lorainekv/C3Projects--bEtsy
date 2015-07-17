@@ -11,7 +11,6 @@ class OrderItemsController < ApplicationController
 
   def create
     @item = OrderItem.create(create_params[:order_item])
-
     redirect_to cart_path
   end
 
