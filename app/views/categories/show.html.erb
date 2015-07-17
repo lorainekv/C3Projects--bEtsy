@@ -1,6 +1,5 @@
+<%= render "shared/header" %>
 <h1><%= @category.name  %>'s Stuffs </h1>
-<p><%= link_to "Go Home!", root_path%></p>
-<p><%= link_to "Back to All Categories", categories_path%></p>
   <% @category.products.each do |product| %>
     <p><%= link_to product.name, product_path(product.id) %></p>
     <p><%= image_tag(product.photo_url)%></p>
