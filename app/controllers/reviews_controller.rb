@@ -8,7 +8,6 @@ class ReviewsController < ApplicationController
 
     @review = Review.new(create_params[:review])
 
-
     if @review.save
       redirect_to product_path(params[:product_id])
     else

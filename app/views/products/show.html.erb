@@ -7,6 +7,18 @@
 <p>Merchant: <%= @product.user.username %></p>
 <p>Category: <%= @product.name %></p>
 
+<% unless @reviews == nil %>
+  <table>
+    <th>Reviews</th>
+    <% @reviews.each do |review| %>
+      <tr>
+        <td> <%= review.rating %> </td>
+        <td> <%= review.text_review %> </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
 <!-- reviews go here
  -->
 <%= link_to "Leave a Review", new_product_review_path(@product) %>
