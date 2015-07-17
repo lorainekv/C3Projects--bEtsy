@@ -1,1 +1,17 @@
-<h1> This is a new form!!</h2>
+<h1> Rate and Review! </h1>
+<%= form_for @review, url: product_reviews_path do |f|  %>
+  <div class="form-group">
+    <fieldset>
+      <legend><h2>Leave yer feedback!</h2></legend>
+      <%= f.label :rating, "Rating" %>
+      <%= f.select :rating, [['1',1],['2',2],['3',3], ['4',4], ['5',5]] %>
+
+      <%= f.label :text_review, "Tell us what you really think!" %>
+      <%= f.text_area :text_review %>
+
+      <%= f.hidden_field :product_id, :value => (params[:product_id]) %>
+
+    </fieldset>
+    <%= f.submit "Submit", class: "btn btn-default"%>
+  </div>
+  <% end %>
