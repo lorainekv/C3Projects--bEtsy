@@ -1,0 +1,7 @@
+<p><%= link_to "Go Home", root_path%></p>
+
+<h1>All Vendors</h1>
+
+<% @users.each do |user| %>
+  <h2><%= link_to user.username, user_path(user) %></h2>
+<% end %>
