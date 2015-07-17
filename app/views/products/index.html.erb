@@ -8,5 +8,4 @@
   <p>Price: $<%= product.price %></p>
   <p>In Stock: <%= product.stock %></p>
   <p>Sold By: <%= link_to product.user.username, user_path(product.user_id)%></p>
-  <p><%= product.reviews %></p>
 <% end %>
