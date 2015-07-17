@@ -38,10 +38,23 @@ RSpec.describe OrderItemsController, type: :controller do
     end
 
     it "redirects to the cart index page" do
-        post :create, params
+      post :create, params
 
-        expect(subject).to redirect_to(cart_path)
-      end
+      expect(subject).to redirect_to(cart_path)
+    end
+
+    describe "DELETE destroy" do
+    before :each do
+      @item1 = OrderItem.new(id: 1, quantity: 1, product_id: 1)
+      @item1.save
+    end
+
+    it "deletes item from the database" do
+      delete :destroy, id: @item1.id, item1: { id: 1, quantity: 1, product_id: 1 }
+
+      expect(OrderItem.count).to eq 0
+    end
+  end
 
   end
 end
