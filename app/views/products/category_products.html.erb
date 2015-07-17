@@ -1,8 +1,0 @@
-<% @category.each do |category| %>
-  <h1>Category: <%= category %></h1>
-  <p><%= category.product.name %></p>
-  <p><%= category.image_tag("product.photo_url")%></p>
-  <p>In Stock: <%= category.product.stock %></p>
-  <p>Price: $<%= category.product.price %></p>
-  <p>Sold by: <%= category.product.username %></p>
-<% end %>
