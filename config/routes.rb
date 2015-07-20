@@ -27,6 +27,10 @@ Rails.application.routes.draw do
   post   "/cart" => 'order_items#create', as: 'order_items'
   patch  "/cart/:id/edit" => 'order_items#edit', as: 'edit_item'
   delete "/cart/:id" => 'order_items#destroy', as: 'delete_item'
+
+  get    "/checkout" => 'orders#new', as: 'checkout'
+  post    "/checkout" => 'orders#create', as: 'checkout'
+
   get    "/signup" => 'users#new', as: 'signup'
   get    "/login" => 'sessions#new', as: 'login'
   post   "/login" => 'sessions#create'
