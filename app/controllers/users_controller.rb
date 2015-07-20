@@ -3,6 +3,21 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
+  def new
+    @user = User.new
+  end
+
+  def create
+    @user = User.new(create_params[:user])
+
+    if @user.save
+        session[:user_id] = @user.id
+        redirect_to root_url
+    else
+      redirect_to signup_path    
+    end
+  end
+
   def show
     @user = User.find(params[:id])
 
@@ -11,7 +26,7 @@ class UsersController < ApplicationController
   private
 
   def create_params
-    params.permit(user: [:username, :price, :description, :stock, :photo_url, :user_id, :product_id])
+    params.permit(user: [:username, :email, :password, :password_confirmation])
   end
 
 end
