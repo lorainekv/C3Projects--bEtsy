@@ -7,5 +7,5 @@
   <p><%= link_to "Remove from Cart", delete_item_path(item), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure you want to delete this?"} %></p>
 <% end %>
 
-<%= link_to "Checkout Now",  %>
+<%= link_to "Checkout Now", new_order_path %>
 <%= link_to "Continue Shopping", products_path %>
