@@ -36,6 +36,8 @@ Rails.application.routes.draw do
   post   "/login" => 'sessions#create'
   delete "/logout" => 'sessions#destroy', as: 'logout'
 
+  get "/dashboard/:id" => 'users#dashboard', as: 'dashboard'
+
 
 
 

@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
 
     if @user && @user.authenticate(params[:session][:password])
       session[:user_id] = @user.id
-        redirect_to root_url
+        redirect_to dashboard_path(session[:user_id])
     else
       flash.now[:error] = "Incorrect Username/Password Combination, Please Try Again or Sign Up as A New Vendor"
       render 'new'

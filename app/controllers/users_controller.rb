@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :require_login, only: [:dashboard]
+
   def index
     @users = User.all
   end
@@ -14,13 +16,16 @@ class UsersController < ApplicationController
         session[:user_id] = @user.id
         redirect_to root_url
     else
-      redirect_to signup_path    
+      redirect_to signup_path
     end
   end
 
   def show
     @user = User.find(params[:id])
+  end
 
+  def dashboard
+    @user = User.find(params[:id])
   end
 
   private
