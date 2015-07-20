@@ -2,11 +2,14 @@
 <h1>Add to cart </h1>
 
 <h3><%= @product.name %></h3>
+
 <%= form_for @item do |f| %>
   <%= f.label :quantity %>
   <%= f.number_field :quantity %>
 
   <%= f.hidden_field  :product_id, :value => params[:product_id] %>
 
-  <%= f.submit "Add to Cart" %>
+  <%= f.submit "Submit" %>
 <% end %>
+
+<%= link_to "Add to Cart", create_order_path, method: :post %>

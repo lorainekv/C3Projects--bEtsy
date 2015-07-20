@@ -1,5 +1,6 @@
 class OrderItemsController < ApplicationController
 
+
   def index
     @order_items = OrderItem.all
   end
@@ -11,7 +12,13 @@ class OrderItemsController < ApplicationController
 
   def create
     @item = OrderItem.create(create_params[:order_item])
-    redirect_to cart_path
+
+    if session[:order_id]
+      @item.order_id = session[:order_id]
+      render 'new'
+    else
+      new_order
+    end
   end
 
   def destroy

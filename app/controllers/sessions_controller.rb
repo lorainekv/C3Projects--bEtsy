@@ -16,6 +16,11 @@ class SessionsController < ApplicationController
     end
   end
 
+  # def create_cart
+  #   session[:order_id] = @order.id
+
+  # end
+
   def destroy
     session[:user_id] = nil
     redirect_to login_path

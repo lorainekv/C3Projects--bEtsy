@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   get "/dashboard/:id" => 'users#dashboard', as: 'dashboard'
 
 
-
+  post "cart" => 'orders#create', as: 'create_order'
 
 
 
