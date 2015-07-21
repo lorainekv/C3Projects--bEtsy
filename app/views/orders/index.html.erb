@@ -1,0 +1,6 @@
+<h1> Your orders</h1>
+
+<% @orders.each do |order|  %>
+<p>Order # <%= link_to order.id, dashboard_order_show_path(:order_id => order.id) %></p>
+<p><%= order.status %></p>
+<% end %>
