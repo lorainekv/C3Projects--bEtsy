@@ -11,6 +11,13 @@ end
 
 # def create
 #   unless session[:order_id]
+#     @order = Order.create(create_params)
+#     session[:order_id] = @order.id
+#   end
+# end
+
+# def create
+#   unless session[:order_id]
 #     @order = Order.create
 #     session[:order_id] = @order.id
 #   end
@@ -18,6 +25,7 @@ end
 # end
 
 def edit
+  @order = Order.find(session[:order_id])
   render :edit
 end
 
@@ -28,6 +36,7 @@ end
 
 def update
   @order = Order.find(session[:order_id])
+  @order.update(create_params[:checkout])
   if @order.order_items.length > 0
     @order.status = 'paid'
     @order.save
@@ -47,6 +56,10 @@ def update
   end
 end
 
+private
 
+def create_params
+  params.permit(checkout: [:name, :email, :address, :cc4, :expiry_date])
+end
 
 end
