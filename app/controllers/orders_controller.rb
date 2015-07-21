@@ -4,6 +4,11 @@ def new
 
 end
 
+def index
+  @orders = Order.all
+end
+
+
 # def create
 #   unless session[:order_id]
 #     @order = Order.create
@@ -12,8 +17,13 @@ end
 #     render cart_path
 # end
 
-def show
+def edit
   render :edit
+end
+
+def show
+  @order = Order.find(params[:order_id])
+  render :show
 end
 
 def update

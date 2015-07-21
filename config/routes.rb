@@ -33,7 +33,8 @@ Rails.application.routes.draw do
   delete "/logout" => 'sessions#destroy', as: 'logout'
 
   get "/dashboard/:id" => 'users#dashboard', as: 'dashboard'
-
+  get "/dashboard/:id/orders" => 'orders#index', as: 'dashboard_orders'
+  get "/dashboard/:id/orders/:order_id" => 'orders#show', as: 'dashboard_order_show'
 
   post "cart" => 'orders#create', as: 'create_order'
 
