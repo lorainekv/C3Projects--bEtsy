@@ -1,22 +1,22 @@
 <%= render "shared/header" %>
 <h1>Shipping & Billing Information </h1>
 
-<%= form_for :checkout, url: "/checkout" do |f| %>
+<%= form_for :checkout, url: "/receipt" do |f| %>
 
 <%= f.label :name, "Name" %>
 <%= f.text_field :name %>
-
+<br/>
 <%= f.label :email, "Email" %>
 <%= f.text_field :email %>
-
+<br/>
 <%= f.label :address, "Address" %>
 <%= f.password_field :address %>
-
+<br/>
 <%= f.label :cc4, "Credit Card Number" %>
 <%= f.password_field :cc4 %>
-
+<br/>
 <%= f.label :expiry_date, "CC Expiration Date" %>
 <%= f.password_field :expiry_date %>
-
+<br/>
 <%= f.submit "Purchase" %>
 <% end %>

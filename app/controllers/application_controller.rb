@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
       @order = Order.create
       session[:order_id] = @order.id
     end
-    render cart_path
+    ## redirect_to cart_path
   end
 
 end

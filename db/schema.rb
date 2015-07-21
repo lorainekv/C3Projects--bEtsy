@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20150716210855) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string   "status"
+    t.string   "status", default: "pending"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "user_id"
