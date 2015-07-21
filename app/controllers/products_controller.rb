@@ -21,14 +21,26 @@ class ProductsController < ApplicationController
     if @product.save
         redirect_to dashboard_path(session[:user_id])
     else
-      raise
       render 'new'
     end
+  end
+
+  def edit
+    @product = Product.find(params[:id])
+    @categories = Category.all
+  end
+
+  def update
+    @product = Product.find(params[:id])
+    @product.update(create_params[:product])
+
+    redirect_to root_path
+    # redirect_to dashboard_path(session[:user_id])
   end
 
   private
 
   def create_params
-    params.permit(product: [:name, :description, :price, :stock, :photo_url, :user_id])
+    params.permit(product: [:name, :description, :price, :stock, :photo_url, :user_id, :category_id])
   end
 end
