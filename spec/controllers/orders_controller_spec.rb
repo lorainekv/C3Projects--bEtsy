@@ -22,7 +22,10 @@ RSpec.describe OrdersController, type: :controller do
       expect(@order.status).to eq("paid")
     end
 
-  
+    it "resets the session to nil when a transaction is complete" do
+      patch :update, :id => session[:order_id]
+      expect(session[:order_id]).to eq(nil)
+    end
 
   end
 
