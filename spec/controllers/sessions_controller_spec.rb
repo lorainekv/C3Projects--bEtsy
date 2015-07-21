@@ -14,8 +14,6 @@ RSpec.describe SessionsController, type: :controller do
     @user = User.create(username: "unigoat", email: "unigoat@unigoat.edu", password: "unigoat", password_confirmation: "unigoat")
     post :create, :session => session_params
 
-    binding.pry
-
     expect(session[:user_id]).to eq(1)
     end
 
