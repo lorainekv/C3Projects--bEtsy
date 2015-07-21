@@ -1,0 +1,26 @@
+<h1>Edit Your Product</h1>
+
+<%= form_for @product, class: "form" do  |f| %>
+<div class="form-group">
+  <%= f.label :name, "Name" %>
+  <%= f.text_field :name, class: "form-control"  %>
+
+  <%= f.label :description, "Description" %>
+  <%= f.text_area :description, class: "form-control" %>
+
+  <%= f.label :price, "Price" %>
+  <%= f.text_field :price, class: "form-control" %>
+
+  <%= f.label :stock, "Stock" %>
+  <%= f.text_field :stock, class: "form-control" %>
+
+  <%= f.label :photo_url, "Add Photo" %>
+  <%= f.text_field :photo_url, class: "form-control" %>
+
+  <%= f.label "Select Category" %>
+  <%= f.collection_select :category_id, @categories, :id, :name, required: :true, class: "form-control"%>
+</div>
+
+
+  <%= f.submit "Submit", class: "btn btn-default"%>
+<% end %>
