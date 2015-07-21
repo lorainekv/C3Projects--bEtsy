@@ -7,17 +7,13 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#index'
 
-  resources :users, only: [:index, :new, :create, :show] do
-    resources :products, only: [:index]
-  end
+  resources :users, only: [:index, :create, :show]
 
   resources :products do
     resources :reviews, only: [:new, :create]
   end
 
-  resources :categories do
-    resources :products, only: [:index]
-  end
+  resources :categories
 
   resources :orders, except: [:destroy]
 
