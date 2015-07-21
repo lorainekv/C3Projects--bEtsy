@@ -5,13 +5,13 @@ def new
 
 end
 
-def create
-  unless session[:order_id]
-    @order = Order.create
-    session[:order_id] = @order.id
-  end
-    render cart_path
-end
+# def create
+#   unless session[:order_id]
+#     @order = Order.create
+#     session[:order_id] = @order.id
+#   end
+#     render cart_path
+# end
 
 def show
   render :edit
