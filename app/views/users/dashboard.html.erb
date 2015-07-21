@@ -1,3 +1,15 @@
 <h1>Oh Hay Girrrrrrl! <%= @user.username %></h1>
 
+<% if @products %>
+  <% @products.each do |product| %>
+    <p><%= product.name %></p>
+    <p><%= product.photo_url %></p>
+    <p><%= product.description %></p>
+    <p><%= product.price %></p>
+  <% end %>
+<% else %>
+  <p>You currently have no products for sale.</p>
+<% end %>
+
 <%= link_to "Create a new category", new_category_path %>
+<%= link_to "Add a new product", new_product_path %>

@@ -10,6 +10,21 @@ RSpec.describe ProductsController, type: :controller do
     end
   end
 
+  describe "GET#New" do
+    before :each do
+      @product = Product.new(id: 1, name: "some name", price: 1, user_id: 1)
+      @product.save
+    end
 
+    it "saves a new blank instance of product in a variable" do
+      get :new
+      expect(Product.count).to eq 1
+    end
+
+    it "renders a new page" do
+      get :new
+      expect(subject).to render_template(:new)
+    end
+  end
 
 end

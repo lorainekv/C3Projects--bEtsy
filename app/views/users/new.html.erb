@@ -1,17 +1,17 @@
 <h1> Create A New Vendor Account </h1>
 <%= form_for :user, url: "/users" do |f| %>
 
-<%= f.label :username, "User Name" %>
-<%= f.text_field :username %>
+  <%= f.label :username, "User Name" %>
+  <%= f.text_field :username %>
 
-<%= f.label :email, "Email" %>
-<%= f.text_field :email %>
+  <%= f.label :email, "Email" %>
+  <%= f.text_field :email %>
 
-<%= f.label :password, "Password" %>
-<%= f.password_field :password %>
+  <%= f.label :password, "Password" %>
+  <%= f.password_field :password %>
 
-<%= f.label :password_confirmation, "Password Confirmation" %>
-<%= f.password_field :password_confirmation %>
+  <%= f.label :password_confirmation, "Password Confirmation" %>
+  <%= f.password_field :password_confirmation %>
 
-<%= f.submit "Submit" %>
+  <%= f.submit "Submit" %>
 <% end %>
