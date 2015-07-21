@@ -1,1 +1,6 @@
 <h1> Thank you for your Purchase! <h1>
+
+  <%= @order.id %>
+  <% @order.order_items.each do |order_item| %>
+  <p>Product ID</p><%= order_item.product.id %>
+  <% end %>

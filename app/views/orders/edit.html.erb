@@ -1,5 +1,12 @@
 <h1>Shipping & Billing Information </h1>
 
+
+<% if flash.now[:error] %>
+  <div>
+    <%=flash.now[:error] %>
+  </div>
+<%end%>
+
 <%= form_for :checkout, url: "/receipt" do |f| %>
 
 <%= f.label :name, "Name" %>
