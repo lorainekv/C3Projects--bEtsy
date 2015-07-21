@@ -31,15 +31,13 @@ def update
   if @order.order_items.length > 0
     @order.status = 'paid'
     @order.save
+    # Clear the session's order_id so any new items get a new order
     session[:order_id] = nil
     render '/orders/confirmation'
   else
     flash.now[:error] = "Order must have at least one item."
-    raise
     render :edit
   end
-
-  # Clear the session's order_id so any new items get a new order
 end
 
 

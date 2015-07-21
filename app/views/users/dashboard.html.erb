@@ -1,9 +1,10 @@
 <h1>Oh Hay Girrrrrrl! <%= @user.username %></h1>
 
+<h3>My Products</h3>
 <% if @products %>
   <% @products.each do |product| %>
     <p><%= product.name %></p>
-    <p><%= product.photo_url %></p>
+    <p><%=image_tag product.photo_url %></p>
     <p><%= product.description %></p>
     <p><%= product.price %></p>
   <% end %>
