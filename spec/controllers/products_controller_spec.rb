@@ -56,6 +56,7 @@ RSpec.describe ProductsController, type: :controller do
 
   describe "PATCH update" do
     it "updates an existing record" do
+      session[:user_id] = 1
       @product = Product.create(id: 1, name: "some name", price: 4, user_id: 1)
       @product.save
 

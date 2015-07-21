@@ -35,5 +35,25 @@ RSpec.describe CategoriesController, type: :controller do
     end
   end
 
+  describe "GET#New" do
+    it "saves a new blank instance of a category in a variable" do
+      @category = Category.new(id: 1, name: "a new category")
+      @category.save
 
+      get :new
+      expect(Category.count).to eq 1
+    end
+  end
+
+  describe "POST #create" do
+      let (:params) do { category: { id: 1, name: "a new category" }}
+      end
+
+      it "creates a new category" do
+        session[:user_id] = 1
+        post :create, params
+
+        expect(Category.count).to eq 1
+      end
+    end
 end

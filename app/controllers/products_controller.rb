@@ -34,8 +34,7 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     @product.update(create_params[:product])
 
-    redirect_to root_path
-    # redirect_to dashboard_path(session[:user_id])
+    redirect_to dashboard_path(session[:user_id])
   end
 
   private
