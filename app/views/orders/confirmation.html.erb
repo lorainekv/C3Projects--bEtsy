@@ -1,6 +1,12 @@
-<h1> Thank you for your Purchase! <h1>
+<h1> Thank You For Your Purchase! <h1>
 
-  <%= @order.id %>
+  <p>Order Status: <%= @order.status %></p>
+  <% @order.id %>
+  <% total = 0 %>
   <% @order.order_items.each do |order_item| %>
-  <p>Product ID</p><%= order_item.product.id %>
+  <% total+=order_item.quantity * order_item.product.price  %>
+  <p>Product Name: <%= order_item.product.name %>
+  <p>Product Price: $ <%= order_item.product.price %>
+  <p>Quantity Ordered: <%= order_item.quantity %></p>
   <% end %>
+  <p>Total Purchase: $ <%= total  %>
