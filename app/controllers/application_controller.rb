@@ -15,4 +15,5 @@ class ApplicationController < ActionController::Base
       session[:order_id] = @order.id
     end
   end
+
 end

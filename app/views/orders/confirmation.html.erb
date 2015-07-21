@@ -1,5 +1,5 @@
 <h1> Thank You For Your Purchase! <h1>
-  <p>Order placed:  <%= @order.created_at %>
+  <p>Order placed:  <%= @time.strftime("%B %-d, %Y %I:%M %p") %>
   <p>Order Status: <%= @order.status %></p>
   <% @order.id %>
   <% total = 0 %>
