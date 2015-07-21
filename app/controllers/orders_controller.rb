@@ -31,9 +31,14 @@ def update
   if @order.order_items.length > 0
     @order.status = 'paid'
     @order.save
+
+    update_stock
+
     # Clear the session's order_id so any new items get a new order
     session[:order_id] = nil
     @time = Time.now.localtime
+
+
     render '/orders/confirmation'
 
   else
