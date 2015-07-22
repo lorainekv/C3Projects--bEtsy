@@ -13,8 +13,7 @@ class UsersController < ApplicationController
     @user = User.new(create_params[:user])
 
     if @user.save
-        session[:user_id] = @user.id
-        redirect_to root_url
+        redirect_to login_url
     else
       redirect_to signup_path
     end
@@ -27,6 +26,7 @@ class UsersController < ApplicationController
   def dashboard
     @user = User.find(params[:id])
     @products = @user.products
+
   end
 
   private

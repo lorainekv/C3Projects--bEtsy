@@ -17,8 +17,12 @@
   <%= f.label :photo_url, "Add Photo" %>
   <%= f.text_field :photo_url, class: "form-control" %>
 
-  <%= f.label "Select Category" %>
-  <%= f.collection_check_boxes (:product, :category_ids, Categories.all, :id, :name, required: :true, class: "checkbox"%>
+  <%= f.label :categories %><br>
+  <%= collection_check_boxes(:product, :category_ids, Category.all, :id, :name) do |b| %>
+       <%= b.label class: "checkbox-inline" do %>
+         <%= b.check_box + b.text.capitalize %>
+       <% end %>
+     <% end %>
 </div>
 
 

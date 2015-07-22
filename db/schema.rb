@@ -11,13 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150716210855) do
+ActiveRecord::Schema.define(version: 20150722042651) do
 
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "name"
   end
+
+  create_table "categories_products", id: false, force: :cascade do |t|
+    t.integer "category_id"
+    t.integer "product_id"
+  end
+
+  add_index "categories_products", ["category_id"], name: "index_categories_products_on_category_id"
+  add_index "categories_products", ["product_id"], name: "index_categories_products_on_product_id"
 
   create_table "order_items", force: :cascade do |t|
     t.integer  "quantity"
@@ -28,7 +36,7 @@ ActiveRecord::Schema.define(version: 20150716210855) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string   "status", default: "pending"
+    t.string   "status"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "user_id"
@@ -46,9 +54,9 @@ ActiveRecord::Schema.define(version: 20150716210855) do
     t.integer  "stock",       default: 0
     t.string   "photo_url"
     t.integer  "user_id"
-    t.integer  "category_id"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.string   "status"
   end
 
   create_table "reviews", force: :cascade do |t|

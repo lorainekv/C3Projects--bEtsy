@@ -7,9 +7,7 @@
     <p><%=image_tag product.photo_url %></p>
     <p><%= product.description %></p>
     <p><%= product.price %></p>
-    <% unless product.category = nil %>
-      <%= product.category %>
-    <% end %>
+    <p><%= product.category.first.name %></p>
     <p><%= link_to "Update Product", edit_product_path(product) %></p>
   <% end %>
 <% else %>
