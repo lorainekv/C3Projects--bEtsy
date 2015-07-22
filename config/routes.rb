@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
   resources :orders, except: [:destroy]
 
+  resources :order_items, only: [:edit, :update]
+
 
   get    "/cart" => 'order_items#index', as: 'cart'
   get    "/cart/:product_id/new" => 'order_items#new', as: 'new_item'

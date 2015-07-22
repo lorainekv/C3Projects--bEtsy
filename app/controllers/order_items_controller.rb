@@ -30,6 +30,16 @@ class OrderItemsController < ApplicationController
     redirect_to cart_path
   end
 
+  def edit
+    @order_item = OrderItem.find(params[:id])
+  end
+
+  def update
+    @order_item = OrderItem.find(params[:id])
+    @order_item.update(create_params[:order_item])
+
+    redirect_to dashboard_orders_path
+  end
 
   def destroy
     @item = OrderItem.find(params[:id])
@@ -42,7 +52,7 @@ class OrderItemsController < ApplicationController
   private
 
   def create_params
-    params.permit(order_item: [:quantity, :order_id, :product_id, :user_id])
+    params.permit(order_item: [:quantity, :order_id, :product_id, :user_id, :shipping])
   end
 
 end
