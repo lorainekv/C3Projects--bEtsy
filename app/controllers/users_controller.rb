@@ -26,6 +26,7 @@ class UsersController < ApplicationController
   def dashboard
     @user = User.find(session[:user_id])
     @products = @user.products
+    @orders = Order.includes(:order_items).where(order_items: { user_id: @user } )
   end
 
   private

@@ -1,3 +1,5 @@
+<%= link_to "Create a new category", new_category_path, class: "btn btn-primary"%>
+<%= link_to "Add a new product", new_product_path, class: "btn btn-primary" %>
 
 <h3>My Products</h3>
 <table class="table">
@@ -14,7 +16,7 @@
     <td><%= link_to "#{product.name}", product_path(product) %></td>
     <td><%= product.description %></td>
     <td><%= product.price %></td>
-    <td><%= link_to "Update Product", edit_product_path(product) %></td>
+    <td><%= link_to "Update Product", edit_product_path(product), class: "btn btn-info" %></td>
     </tr>
   <% end %>
 <% else %>
@@ -22,7 +24,28 @@
 <% end %>
 </table>
 
-<%= link_to "Create a new category", new_category_path, class: "btn btn-default"%>
-<%= link_to "Add a new product", new_product_path, class: "btn btn-default" %>
+<h3>My Orders</h3><%= link_to "Order Fulfillment", dashboard_orders_path, class: "btn btn-primary" %>
 
-<%= link_to "View your Orders", dashboard_orders_path, class: "btn btn-default" %>
+<table class="table">
+  <tr>
+    <th>Order Id</th>
+    <th>Order Status</th>
+    <th>Order Placed</th>
+    <th>View Order</th>
+  </tr>
+<% if @orders %>
+  <% @orders.each do |order| %>
+  <tr>
+    <td><%= order.id %></td>
+    <td><%= order.status.capitalize %></td>
+    <td><%= order.created_at.strftime("%B %-d, %Y %I:%M %p") %></td>
+    <td><%= link_to "Buyer Details", dashboard_order_show_path(:order_id => order.id), class: "btn btn-info" %></td>
+  </tr>
+  <% end %>
+<% end %>
+</table>
+
+
+
+
+

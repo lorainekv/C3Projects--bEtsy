@@ -2,17 +2,32 @@
 
 <% total_revenue = 0 %>
 
+<table class="table">
+  <tr>
+    <th>Order #</th>
+    <th>Status</th>
+    <th>Shipping Status</th>
+    <th>Order Placed</th>
+    <th>Product Name</th>
+    <th>Product Price</th>
+    <th>Quantity Ordered</th>
+  </tr>
 <% @orders.each do |order|  %>
-  <h3>Order # <%= link_to order.id, dashboard_order_show_path(:order_id => order.id) %></h3>
-  <p>Status: <%= order.status %></p>
-  <p>Order Placed: <%= order.created_at.strftime("%B %-d, %Y %I:%M %p") %>
+<tr>
+  <td><%= link_to order.id, dashboard_order_show_path(:order_id => order.id) %></td>
+  <td><%= order.status.capitalize %></td>
+  <td></td>
+  <td> <%= order.created_at.strftime("%B %-d, %Y %I:%M %p") %></td>
 
   <% order.order_items.each do |order_item| %>
     <% total_revenue += order_item.quantity * order_item.product.price  %>
-    <p>Product Name: <%=link_to order_item.product.name, product_path(order_item.product.id) %>
-    <p>Product Price: $ <%= order_item.product.price %>
-    <p>Quantity Ordered: <%= order_item.quantity %></p>
+    <td><%=link_to order_item.product.name, product_path(order_item.product.id) %></td>
+    <td>$ <%= order_item.product.price %></td>
+    <td><%= order_item.quantity %></td>
   <% end %>
 <% end %>
-<h3>Total Revenue: $ <%= total_revenue %></h3>
-<h3>Total Orders: <%= @orders.count %></h3>
+</tr>
+</table>
+<h4>Total Revenue: $ <%= total_revenue %></h4>
+<h4>Total Orders: <%= @orders.count %></h4>
+
