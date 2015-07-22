@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_login, only: [:dashboard]
+  before_action :registered_user, only: [:new]
 
   def index
     @users = User.all
