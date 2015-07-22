@@ -3,7 +3,7 @@
 <h3><%= @product.name %></h3>
 
 <% if flash.now[:error] %>
-  <div>
+  <div class="alert alert-danger" role="alert">
     <%= flash.now[:error] %>
   </div>
 <% end %>
