@@ -6,6 +6,11 @@ RSpec.describe OrderItemsController, type: :controller do
       get :index
       expect(response.status).to eq(200)
     end
+
+    it "renders the :index view for order items in cart" do
+       get :index
+       expect(response).to render_template("index")
+    end
   end
 
   describe "GET new" do
