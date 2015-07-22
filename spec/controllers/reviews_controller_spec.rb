@@ -3,9 +3,13 @@ require 'pry'
 RSpec.describe ReviewsController, type: :controller do
 
   describe "GET #new" do
-    it "responds with an HTTP 200 status" do
-      get :new, product_id: 1
+    before :each do
+      @product = Product.create(name: 'a', price: 10, stock: 1, user_id: 2)
+    end
 
+
+    it "responds with an HTTP 200 status" do
+      
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
