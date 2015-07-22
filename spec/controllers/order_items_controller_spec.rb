@@ -16,7 +16,7 @@ RSpec.describe OrderItemsController, type: :controller do
   describe "GET new" do
 
     before :each do
-      @product = Product.new(id: 1, name: "some name", price: 1, user_id: 1)
+      @product = Product.new(id: 1, name: "some name", price: 1, user_id: 1, status: "active")
       @item = OrderItem.new(quantity: 2, product_id: 1)
       @product.save
     end
