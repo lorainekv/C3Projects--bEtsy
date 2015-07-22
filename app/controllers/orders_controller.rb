@@ -6,6 +6,7 @@ class OrdersController < ApplicationController
 
   def index
     @orders = Order.all
+    @order = Order.find(params[:id])
   end
 
 
