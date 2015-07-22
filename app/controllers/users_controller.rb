@@ -24,9 +24,8 @@ class UsersController < ApplicationController
   end
 
   def dashboard
-    @user = User.find(params[:id])
+    @user = User.find(session[:user_id])
     @products = @user.products
-
   end
 
   private
