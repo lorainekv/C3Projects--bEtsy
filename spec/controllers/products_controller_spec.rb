@@ -18,6 +18,13 @@ RSpec.describe ProductsController, type: :controller do
       get :new
       expect(Product.count).to eq 1
     end
+
+    it "saves a new blank instance of review in a variable" do
+      @product = Product.create(id: 7, name: "some name", price: 1, user_id: 1)
+      @review = Review.create(rating: 1, text_review: "twas good", product_id: 7)
+      get :new, :product_id => @product.id
+      expect(@review.product_id).to eq 7
+    end
   end
 
   describe "POST #create" do
