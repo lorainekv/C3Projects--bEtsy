@@ -4,4 +4,4 @@
 <p>Email: <%= @order.email %></p>
 <p>Address: <%= @order.address %></p>
 <p>CC: <%= @order.cc4 %></p>
-<p>Exp Date:<%= @order.expiry_date %></p>
+<p>Exp Date: <%= @order.expiry_date.strftime("%Y/%m") %></p>

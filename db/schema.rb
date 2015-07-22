@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150721224738) do
+ActiveRecord::Schema.define(version: 20150722005156) do
 
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -29,14 +29,14 @@ ActiveRecord::Schema.define(version: 20150721224738) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string   "status",      default: "pending"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.string   "status",                default: "pending"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.integer  "user_id"
     t.string   "name"
     t.string   "email"
     t.string   "address"
-    t.integer  "cc4"
+    t.integer  "cc4",         limit: 8
     t.datetime "expiry_date"
   end
 
