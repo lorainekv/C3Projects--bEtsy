@@ -9,21 +9,6 @@ def index
 end
 
 
-# def create
-#   unless session[:order_id]
-#     @order = Order.create(create_params)
-#     session[:order_id] = @order.id
-#   end
-# end
-
-# def create
-#   unless session[:order_id]
-#     @order = Order.create
-#     session[:order_id] = @order.id
-#   end
-#     render cart_path
-# end
-
 def edit
   @order = Order.find(session[:order_id])
   render :edit
