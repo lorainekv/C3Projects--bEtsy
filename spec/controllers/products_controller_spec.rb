@@ -67,13 +67,13 @@ RSpec.describe ProductsController, type: :controller do
   describe "PATCH update" do
     it "updates an existing record" do
       session[:user_id] = 1
-      @product = Product.create(id: 1, name: "some name", price: 4, user_id: 1)
+      @product = Product.create(id: 1, name: "some name", price: 4, user_id: 1, status: "active")
       @product.save
 
-      patch :update, id: @product.id, product: { id: 1, name: "A new name", price: 4, user_id: 1, category_id: 1 }
+      patch :update, id: @product.id, product: { id: 1, name: "A new name", price: 12, user_id: 1}
       @product.reload
 
-      expect(@product.category_id).to eq 1
+      expect(@product.price).to eq 12
     end
   end
 end
