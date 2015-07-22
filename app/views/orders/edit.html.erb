@@ -22,7 +22,7 @@
 <%= f.password_field :cc4 %>
 <br/>
 <%= f.label :expiry_date, "CC Expiration Date" %>
-<%= f.text_field :expiry_date %>
+<%= f.date_select :expiry_date, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :use_month_numbers => true %>
 <br/>
 <%= f.submit "Purchase" %>
 <% end %>
