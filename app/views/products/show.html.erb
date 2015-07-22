@@ -1,4 +1,8 @@
-
+<% if flash[:error] %>
+  <div class="alert alert-danger" role="alert">
+    <%= flash[:error] %>
+  </div>
+<% end %>
 <p>Product Name: <%= @product.name %></p>
 <p>Price: <%= @product.price %></p>
 <p>Description: <%= @product.description %></p>
