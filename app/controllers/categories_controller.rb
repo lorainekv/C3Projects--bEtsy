@@ -6,7 +6,7 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @category = Category.find(params[:order_id])
+    @category = Category.find(params[:id])
   end
 
   def new
