@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe ProductsController, type: :controller do
   describe "GET #index" do
 
-    it "loads all of the products into @products" do
+    it "loads just active products into @products" do
       product1 = Product.create(:name => "1st Product Name", :price => 2, :user_id => 3, :status => "active")
-      product2 =  Product.create(:name => "2nd Product Name", :price => 5, :user_id => 4, :status => "active")
+      product2 =  Product.create(:name => "2nd Product Name", :price => 5, :user_id => 4, :status => "retired")
       get :index
-      expect(assigns(:products)).to match_array([product1, product2])
+      expect(assigns(:products)).to match_array([product1])
     end
   end
 
@@ -32,7 +32,7 @@ RSpec.describe ProductsController, type: :controller do
 
   describe "POST #create" do
     context "valid params" do
-      let (:params) do {product: {id: 1, name: "a name", price: 1, user_id: 1 }}
+      let (:params) do {product: {id: 1, name: "a name", price: 1, user_id: 1, status: "active"}}
       end
 
       before :each do
