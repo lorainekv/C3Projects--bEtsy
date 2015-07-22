@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
   def new_order
     unless session[:order_id]
       @order = Order.create
+      @order.status = "pending"
       session[:order_id] = @order.id
+
     end
   end
-
-
 
   def update_stock
 

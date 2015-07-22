@@ -22,9 +22,9 @@ class OrderItemsController < ApplicationController
     @item.order_id = session[:order_id]
     @item.save
 
-
     redirect_to cart_path
   end
+
 
   def destroy
     @item = OrderItem.find(params[:id])
