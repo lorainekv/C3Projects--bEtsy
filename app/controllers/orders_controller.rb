@@ -5,8 +5,9 @@ class OrdersController < ApplicationController
   end
 
   def index
-    @orders = Order.all
-    
+    @merchant = session[:user_id]
+    @orders = Order.includes(:order_items).where(order_items: { user_id: @merchant } )
+
   end
 
 
