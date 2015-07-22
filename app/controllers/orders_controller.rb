@@ -22,6 +22,7 @@ class OrdersController < ApplicationController
   end
 
   def update
+
     @order = Order.find(session[:order_id])
     @order.update(create_params[:checkout])
     if @order.order_items.length > 0

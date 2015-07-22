@@ -46,8 +46,9 @@ RSpec.describe OrdersController, type: :controller do
 
   describe "PATCH #update" do
     before(:each) do
-      @order = Order.create(id: 1, status: "pending")
-      @item = OrderItem.create(quantity: 1, order_id: 1, product_id: 1)
+      @product = Product.create(name: 'Doll', price: 10, user_id: 1, status: 'active')
+      @order = Order.create(status: "pending")
+      @item = OrderItem.create(quantity: 1, order_id: @order.id, product_id: @product.id)
       session[:order_id] = @order.id
     end
 
@@ -56,13 +57,13 @@ RSpec.describe OrdersController, type: :controller do
     end
 
     it "changes the order status to 'paid'" do
-      patch :update, :id => session[:order_id]
+      patch :update, :id => @order.id, checkout: {status: "paid"}
       @order.reload
       expect(@order.status).to eq("paid")
     end
 
     it "resets the session to nil when a transaction is complete" do
-      patch :update, :id => session[:order_id]
+      patch :update, :id =>   session[:order_id]
       expect(session[:order_id]).to eq(nil)
     end
 
