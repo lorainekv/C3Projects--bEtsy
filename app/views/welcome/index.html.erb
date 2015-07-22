@@ -1,31 +1,13 @@
-
+<h1>Welcome to Petcessories!</h1>
 <div class="row">
-
+<% @products.each do |product| %>
   <div class="col-md-3">
-    <p>View Products by Category</p>
-    <p>View Products by Merchant</p>
-
-  </div>
-
-  <div class="col-md-3">
-      <% product = @products.sample %>
-      <p> <%= image_tag(product.photo_url, height: '100', width: '100', class: "img-thumbnail" ) %> </p>
-      <h3><%= link_to product.name, product_path(product) %></h3>
-    </div>
-
-
-
-  <div class="col-md-3">
-    <% product = @products.sample %>
-    <p> <%= image_tag(product.photo_url, height: '100', width: '100', class: "img-thumbnail" ) %> </p>
-    <h3><%= link_to product.name, product_path(product) %></h3>
-  </div>
-
-
-
-  <div class="col-md-3">
-    <% product = @products.sample %>
-    <p> <%= image_tag(product.photo_url, height: '100', width: '100', class: "img-thumbnail" ) %> </p>
-    <h3><%= link_to product.name, product_path(product) %></h3>
-  </div>
+     <div class="thumbnail">
+  <p><%= link_to product.name, product_path(product) %></p>
+  <p><%= image_tag(product.photo_url, class: "img-rounded", size: "160x140" ) %></p>
+  <%= link_to "View Product", product_path(product), class: "btn btn-primary" %>
+   </div>
+ </div>
+<% end %>
 </div>
+

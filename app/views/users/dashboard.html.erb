@@ -1,22 +1,28 @@
-<h1>Oh Hay Girrrrrrl! <%= @user.username %></h1>
 
 <h3>My Products</h3>
+<table class="table">
+  <tr>
+  <th>Product Name</th>
+  <th>Description</th>
+  <th>Price</th>
+  <th>Update</th>
+
+  </tr>
 <% if @products %>
   <% @products.each do |product| %>
-    <p><%= product.name %></p>
-    <p><%=image_tag product.photo_url %></p>
-    <p><%= product.description %></p>
-    <p><%= product.price %></p>
-    <% unless product.category = nil %>
-      <%= product.category %>
-    <% end %>
-    <p><%= link_to "Update Product", edit_product_path(product) %></p>
+  <tr>
+    <td><%= link_to "#{product.name}", product_path(product) %></td>
+    <td><%= product.description %></td>
+    <td><%= product.price %></td>
+    <td><%= link_to "Update Product", edit_product_path(product) %></td>
+    </tr>
   <% end %>
 <% else %>
   <p>You currently have no products for sale.</p>
 <% end %>
+</table>
 
-<%= link_to "Create a new category", new_category_path %>
-<%= link_to "Add a new product", new_product_path %>
+<%= link_to "Create a new category", new_category_path, class: "btn btn-default"%>
+<%= link_to "Add a new product", new_product_path, class: "btn btn-default" %>
 
-<%= link_to "View your Orders", dashboard_orders_path %>
+<%= link_to "View your Orders", dashboard_orders_path, class: "btn btn-default" %>

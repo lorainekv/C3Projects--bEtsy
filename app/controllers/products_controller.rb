@@ -41,6 +41,7 @@ class ProductsController < ApplicationController
   private
 
   def create_params
-    params.permit(product: [:name, :description, :price, :stock, :photo_url, :user_id, :category_id])
+    params.permit(product: [:name, :description, :price, :stock, :photo_url, :user_id, {:category_ids => [] }])
+
   end
 end
