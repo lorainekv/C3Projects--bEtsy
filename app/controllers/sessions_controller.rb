@@ -9,17 +9,13 @@ class SessionsController < ApplicationController
 
     if @user && @user.authenticate(params[:session][:password])
       session[:user_id] = @user.id
-        redirect_to dashboard_path(session[:user_id])
+
+      redirect_to dashboard_path(session[:user_id])
     else
       flash.now[:error] = "Incorrect Username/Password Combination, Please Try Again or Sign Up as A New Vendor"
       render 'new'
     end
   end
-
-  # def create_cart
-  #   session[:order_id] = @order.id
-
-  # end
 
   def destroy
     session[:user_id] = nil
