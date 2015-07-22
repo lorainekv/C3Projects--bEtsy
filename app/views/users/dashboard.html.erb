@@ -1,3 +1,10 @@
+<% if flash.now[:error] %>
+  <div>
+    <%=flash.now[:error] %>
+  </div>
+<%end%>
+
+
 
 <h3>My Products</h3>
 <table class="table">

@@ -3,10 +3,16 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  MESSAGES = {not_logged_in: "You are not currently logged in!"}
+  MESSAGES = {not_logged_in: "You are not currently logged in!",
+              already_logged_in: "Can't access login page because you're already logged in!"
+  }
 
   def require_login
     redirect_to login_path, flash: {error: MESSAGES[:not_logged_in]} unless session[:user_id]
+  end
+
+  def logged_in_user
+    redirect_to "/dashboard/#{session[:user_id]}", flash: {error: MESSAGES[:already_logged_in]} if session[:user_id]
   end
 
   def new_order
