@@ -8,7 +8,7 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
-/db/schema.rb
+db/schema.rb
 
 ## Specific to RubyMotion:
 .dat*
