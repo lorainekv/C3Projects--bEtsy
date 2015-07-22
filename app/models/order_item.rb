@@ -8,11 +8,5 @@ class OrderItem < ActiveRecord::Base
 
 # SCOPES
 # --------------------------------------------------------------------
-  scope :user_order_items, -> { where(user_id: session[:user_id] )}
 
-
-
-# Order's with OrderItems that have a user_id attribute that matches session[:user_id]
-
-# records where the OrderItem.user_id = session[:user_id]
 end
