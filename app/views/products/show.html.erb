@@ -5,7 +5,10 @@
 <p>Stock: <%= @product.stock %></p>
 <p><%= image_tag(@product.photo_url, size: "300x200") %></p>
 <p>Merchant: <%= @product.user.username %></p>
-<p>Category: <%= @product.name %></p>
+<p>Categories:
+<% @product.category.all.each do |category| %>
+  <%= link_to "#{category.name}", category_path(category)  %>
+<% end %>
 
 <% unless @reviews == nil %>
   <table>

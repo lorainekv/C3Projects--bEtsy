@@ -1,7 +1,22 @@
-<h1><%= @category.name  %>'s Stuffs </h1>
+<!--
   <% @category.products.each do |product| %>
     <p><%= link_to product.name, product_path(product.id) %></p>
     <p><%= image_tag(product.photo_url)%></p>
     <p>In Stock: <%= product.stock %></p>
     <p>Price: $<%= product.price %></p>
-  <% end %>
+  <% end %> -->
+
+<h1><%= @category.name  %> </h1>
+<div class="row">
+<% @category.products.each do |product| %>
+  <div class="col-md-3">
+     <div class="thumbnail">
+  <p><%= link_to product.name, product_path(product) %></p>
+  <p><%= image_tag(product.photo_url, class: "img-rounded", size: "160x140" ) %></p>
+  <p>Price: $<%= product.price %></p>
+  <p>In Stock: <%= product.stock %></p>
+  <p>Sold By: <%= link_to product.user.username, user_path(product.user_id)%></p>
+   </div>
+ </div>
+<% end %>
+</div>
