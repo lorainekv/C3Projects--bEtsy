@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
   before_action :require_login, only: [:new, :create, :edit, :update]
 
   def index
-    @products = Product.all
+    @products = Product.active
   end
 
   def show
