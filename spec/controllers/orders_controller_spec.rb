@@ -15,8 +15,16 @@ RSpec.describe OrdersController, type: :controller do
       get :index
       expect(assigns(:orders)).to match_array([order, order2])
     end
-
   end
+
+  # describe "GET #new" do
+  #   it "saves a new blank instance of an order in a variable" do
+  #     @order = Order.new(id: 5)
+  #     @order.save
+  #     get :new
+  #     expect(Order.count).to eq 1
+  #   end
+  # end
 
   describe "GET #show " do
     before(:each) do
@@ -38,6 +46,12 @@ RSpec.describe OrdersController, type: :controller do
       get :show, id: @order.id, order_id: @item.order_id
       expect(assigns(:order)).to eq(@order)
     end
+  end
+
+  describe "GET #edit" do
+
+
+
   end
 
 
