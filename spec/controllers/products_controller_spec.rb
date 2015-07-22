@@ -4,7 +4,8 @@ RSpec.describe ProductsController, type: :controller do
   describe "GET #index" do
 
     it "loads all of the products into @products" do
-      product1, product2 = Product.create(:name => "First Product Name", :price => 2, :user_id => 3), Product.create(:name => "2nd Product Name", :price => 5, :user_id => 4)
+      product1 = Product.create(:name => "1st Product Name", :price => 2, :user_id => 3, :status => "active")
+      product2 =  Product.create(:name => "2nd Product Name", :price => 5, :user_id => 4, :status => "active")
       get :index
       expect(assigns(:products)).to match_array([product1, product2])
     end
@@ -12,7 +13,7 @@ RSpec.describe ProductsController, type: :controller do
 
   describe "GET#New" do
     it "saves a new blank instance of product in a variable" do
-      @product = Product.new(id: 1, name: "some name", price: 1, user_id: 1)
+      @product = Product.new(id: 1, name: "some name", price: 1, user_id: 1, status: "active")
       @product.save
 
       get :new
