@@ -8,6 +8,7 @@ class OrderItemsController < ApplicationController
   def new
     @item = OrderItem.new
     @product = Product.find(params[:product_id])
+    @merchant = Product.find(params[:product_id]).user_id
     @stock = @product.stock
     if @stock == 0
       flash.now[:error] = "We're Sorry, This Item is Currently Sold Out!"
@@ -41,7 +42,7 @@ class OrderItemsController < ApplicationController
   private
 
   def create_params
-    params.permit(order_item: [:quantity, :order_id, :product_id])
+    params.permit(order_item: [:quantity, :order_id, :product_id, :user_id])
   end
 
 end
