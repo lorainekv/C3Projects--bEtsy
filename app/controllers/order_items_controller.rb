@@ -8,6 +8,10 @@ class OrderItemsController < ApplicationController
   def new
     @item = OrderItem.new
     @product = Product.find(params[:product_id])
+    @stock = @product.stock
+    if @stock == 0
+      flash.now[:error] = "We're Sorry, This Item is Currently Sold Out!"
+    end
   end
 
   def create
