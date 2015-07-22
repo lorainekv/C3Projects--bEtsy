@@ -37,21 +37,10 @@ RSpec.describe OrdersController, type: :controller do
       @order.destroy
     end
 
-
-    it "returns http success" do
-      expect(response).to have_http_status(:success)
-    end
-
     it "allows vendors to see their orders" do
       get :show, id: @order.id, order_id: @item.order_id
       expect(assigns(:order)).to eq(@order)
     end
-  end
-
-  describe "GET #edit" do
-
-
-
   end
 
 
