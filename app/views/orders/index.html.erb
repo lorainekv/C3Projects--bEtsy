@@ -3,7 +3,7 @@
 <% total_revenue = 0 %>
 
 <div class="btn-group">
-  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
   Filter Orders by Status <span class="caret"></span>
   </button>
     <ul class="dropdown-menu">
@@ -14,9 +14,11 @@
   </div>
 
 <% @orders.each do |order|  %>
+<div class="row">
+  <div class="col-md-10">
   <h3>Order #<%= link_to order.id, dashboard_order_show_path(:order_id => order.id) %></h3>
-  <h5>Status: <%= order.status.capitalize %></h5>
-  <h5>Order Placed: <%= order.created_at.localtime.strftime("%B %-d, %Y %I:%M %p") %></h5>
+  <h4>Status: <%= order.status.capitalize %></h4>
+  <h4>Order Placed: <%= order.created_at.localtime.strftime("%B %-d, %Y %I:%M %p") %></h4>
 
   <table class="table">
     <tr>
@@ -47,13 +49,19 @@
     </tr>
     <% end %>
 
+
      </table>
+
     <% order_total = 0 %>
-      <h5>Order Total $<% order.order_items.each do |order_item| %>
+      <h4>Order Total $<% order.order_items.each do |order_item| %>
         <% order_total += order_item.product.price * order_item.quantity %>
         <% end %>
-        <%= order_total %></h5>
+        <%= order_total %></h4>
+        </div>
+        </div>
+        <hr>
     <% end %>
 
-<h4>Total Revenue: $ <%= total_revenue %></h4>
-<h4>Total Orders: <%= @orders.count %></h4>
+
+<h3 class="total">Total Orders: <%= @orders.count %></h3>
+<h3 class="total">Total Revenue: $ <%= total_revenue %></h3>
