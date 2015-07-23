@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+    before_action :order_page_access, only: [:index]
 
   def new
 
