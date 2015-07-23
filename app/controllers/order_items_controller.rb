@@ -16,8 +16,21 @@ class OrderItemsController < ApplicationController
   end
 
   def create
-    @item = OrderItem.create(create_params[:order_item])
 
+    increase_by = params[:order_item][:quantity].to_i
+    existing_cart = session[:order_id]
+    current_product_id = params[:order_item][:product_id]
+    current_order_item = OrderItem.where(product_id: current_product_id , order_id: existing_cart)
+
+    if current_order_item.present?
+      raise "extra carts found" if current_order_item.count > 1
+      @item = current_order_item.first
+      @item.quantity += increase_by
+
+    else
+      @item = OrderItem.create(create_params[:order_item])
+    
+    end
     # If we don't have an order_id in the session, create one
     unless session[:order_id]
       new_order
