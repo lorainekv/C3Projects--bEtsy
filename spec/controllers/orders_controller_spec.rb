@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pry'
 
 RSpec.describe OrdersController, type: :controller do
 
@@ -63,7 +64,7 @@ RSpec.describe OrdersController, type: :controller do
     end
 
     it "resets the session to nil when a transaction is complete" do
-      patch :update, :id =>   session[:order_id]
+      patch :update, :id => @order.id, checkout: {status: "paid"}
       expect(session[:order_id]).to eq(nil)
     end
 
