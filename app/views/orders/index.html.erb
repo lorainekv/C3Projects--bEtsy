@@ -2,40 +2,52 @@
 
 <% total_revenue = 0 %>
 
-<table class="table">
-  <tr>
-    <th>Order #</th>
-    <th>Status</th>
-    <th>Order Placed</th>
-    <th>Product Name</th>
-    <th>Product Price</th>
-    <th>Quantity Ordered</th>
-    <th>Shipped?</th>
-    <th>Change Shipping Status</th>
-  </tr>
 <% @orders.each do |order|  %>
-<tr>
-  <td><%= link_to order.id, dashboard_order_show_path(:order_id => order.id) %></td>
-  <td><%= order.status.capitalize %></td>
-  <td> <%= order.created_at.strftime("%B %-d, %Y %I:%M %p") %></td>
+  <h3>Order #<%= link_to order.id, dashboard_order_show_path(:order_id => order.id) %></h3>
+  <h5>Status: <%= order.status.capitalize %></h5>
+  <h5>Order Placed: <%= order.created_at.localtime.strftime("%B %-d, %Y %I:%M %p") %></h5>
 
-  <% order.order_items.each do |order_item| %>
-    <% total_revenue += order_item.quantity * order_item.product.price  %>
-    <td><%=link_to order_item.product.name, product_path(order_item.product.id) %></td>
-    <td>$ <%= order_item.product.price %></td>
-    <td><%= order_item.quantity %></td>
+  <table class="table">
+    <tr>
+      <th>Product Name</th>
+      <th>Price</th>
+      <th></th>
+      <th>Quantity</th>
+      <th>Subtotal</th>
+      <th>Shipped?</th>
+      <th>Change Shipping Status</th>
+    </tr>
 
-    <% if order_item.shipping %>
-      <td>Yes</td>
-    <% else %>
-      <td>No</td>
+    <% order.order_items.each do |order_item| %>
+    <tr>
+      <% total_revenue += order_item.quantity * order_item.product.price  %>
+      <td><%=link_to order_item.product.name, product_path(order_item.product.id) %></td>
+      <td>$ <%= order_item.product.price %></td>
+      <td>x</td>
+      <td><%= order_item.quantity %></td>
+      <td><%= order_item.product.price * order_item.quantity %></td>
+
+      <% if order_item.shipping %>
+        <td>Yes</td>
+      <% else %>
+        <td>No</td>
+      <% end %>
+
+      <td><%= link_to "Change Shipping Status", edit_order_item_path(order_item) %></td>
+    </tr>
     <% end %>
 
-    <td><%= link_to "Change Shipping Status", edit_order_item_path(order_item) %></td>
-  <% end %>
-<% end %>
-</tr>
-</table>
+    <tr>
+    <% order_total = 0 %>
+      <td><h5>Order Total $<% order.order_items.each do |order_item| %>
+        <% order_total += order_item.product.price * order_item.quantity %>
+        <% end %>
+        <%= order_total %></h5>
+      </td>
+    </tr>
+      </table>
+        <td></tr>
+    <% end %>
+
 <h4>Total Revenue: $ <%= total_revenue %></h4>
 <h4>Total Orders: <%= @orders.count %></h4>
-
