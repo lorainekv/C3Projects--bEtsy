@@ -48,7 +48,29 @@ RSpec.describe OrderItemsController, type: :controller do
       expect(subject).to redirect_to(cart_path)
     end
 
-    describe "DELETE destroy" do
+    context "2 Orders Exist with the Same Order_Id/Session_Id  " do
+      let (:params) do
+        {order_item: {quantity: 1, order_id: 566, product_id: 2, user_id: 1}}
+      end
+
+      before do
+        OrderItem.create(params[:order_item])
+        OrderItem.create(params[:order_item])
+      end
+
+      after(:each) do
+        OrderItem.where(order_id: 566).destroy_all
+      end
+      it "Will Raise an Error" do
+        expect {post :create, params, {order_id: 566}}.to raise_error("extra carts found" )
+
+
+      end
+    end
+
+  end
+
+  describe "DELETE destroy" do
     before :each do
       @item1 = OrderItem.new(id: 1, quantity: 1, product_id: 1)
       @item1.save
@@ -61,5 +83,4 @@ RSpec.describe OrderItemsController, type: :controller do
     end
   end
 
-  end
 end
