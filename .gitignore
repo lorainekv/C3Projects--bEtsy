@@ -36,3 +36,4 @@ build/
 .rvmrc
 *.sqlite3
 *.log
+.DS_Store

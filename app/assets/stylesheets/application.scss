@@ -13,8 +13,6 @@
  *= require_self
  */
 
-
-
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
@@ -25,6 +23,17 @@
 
 html, body {
   background-image: image-url("pawprint_grey.png")
+}
+
+.page-header {
+  background-image: image-url("catdog_small.png");
+  background-repeat: no-repeat;
+  height: 80px;
+  // background-color: rgb(255, 255, 255);
+}
+
+.page-header h1{
+  margin-left: 100px;
 }
 
 .thumbnail {
