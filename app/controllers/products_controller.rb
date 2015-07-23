@@ -29,6 +29,9 @@ class ProductsController < ApplicationController
   def edit
     @product = Product.find(params[:id])
     @categories = Category.all
+    if session[:user_id] != @product.user_id
+      redirect_to product_path(@product)
+    end
   end
 
   def update
