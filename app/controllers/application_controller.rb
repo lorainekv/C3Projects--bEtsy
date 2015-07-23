@@ -49,4 +49,25 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def order_complete
+    @order_item = OrderItem.find(params[:id])
+    @order_id = @order_item[:order_id]
+    @order_items = OrderItem.where("order_id = ?", @order_id)
+    @order = Order.find(@order_id)
+
+    all_items = @order_items.length
+
+    counter = 0
+
+    @order_items.each do |item|
+      if item.shipping == "Yes"
+        counter += 1
+      end
+    end
+
+      if counter == all_items
+        @order.status = "Complete"
+        @order.save
+      end
+  end
 end

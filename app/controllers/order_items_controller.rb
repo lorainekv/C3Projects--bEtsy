@@ -38,15 +38,13 @@ class OrderItemsController < ApplicationController
     @order_item = OrderItem.find(params[:id])
     @order_item.shipping = "Yes"
     @order_item.save
-
+    order_complete
     redirect_to dashboard_orders_path
   end
 
   def destroy
     @item = OrderItem.find(params[:id])
     @item.destroy
-
-
     redirect_to cart_path
   end
 
