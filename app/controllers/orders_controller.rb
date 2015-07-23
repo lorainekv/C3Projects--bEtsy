@@ -1,10 +1,6 @@
 class OrdersController < ApplicationController
     before_action :order_page_access, only: [:index]
 
-  def new
-
-  end
-
   def index
     @merchant = session[:user_id]
     @orders = Order.includes(:order_items).where(order_items: { user_id: @merchant } )

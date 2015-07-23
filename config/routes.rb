@@ -9,13 +9,13 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :create, :show]
 
-  resources :products do
+  resources :products, except: [:destroy] do
     resources :reviews, only: [:new, :create]
   end
 
-  resources :categories
+  resources :categories, except: [:edit, :update, :destroy]
 
-  resources :orders, except: [:destroy]
+  resources :orders, except: [:destroy, :new, :create]
 
   resources :order_items, only: [:edit, :update]
 
@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   get "/dashboard/:id/orders" => 'orders#index', as: 'dashboard_orders'
   get "/dashboard/:id/orders/:order_id" => 'orders#show', as: 'dashboard_order_show'
 
-  post "cart" => 'orders#create', as: 'create_order'
+
 
 
 
