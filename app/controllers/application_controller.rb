@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
     redirect_to "/dashboard/#{session[:user_id]}", flash: {error: MESSAGES[:already_signed_up]} if session[:user_id]
   end
 
+  def order_page_access
+    redirect_to root_path unless session[:user_id]
+  end
+
   def new_order
     unless session[:order_id]
       @order = Order.create
