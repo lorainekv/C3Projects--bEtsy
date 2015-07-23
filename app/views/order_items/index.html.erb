@@ -7,12 +7,13 @@
   <p><%= link_to "Remove from Cart", delete_item_path(item), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure you want to delete this?"} %></p>
 <% end %>
 
+<br>
 <% if session[:order_id] && @order_items.length > 0 %>
-  <%= link_to "Checkout Now", edit_order_path(session[:order_id]) %>
+  <%= link_to "Checkout Now", edit_order_path(session[:order_id]), class: "btn btn-primary" %>
 <% else %>
   <%= "Add stuff to your cart first!" %>
 <% end  %>
 
 
-<p><%= link_to "Continue Shopping", products_path, class: "btn btn-primary" %></p>
+<%= link_to "Continue Shopping", products_path, class: "btn btn-primary" %>
 
