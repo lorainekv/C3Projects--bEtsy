@@ -2,6 +2,17 @@
 
 <% total_revenue = 0 %>
 
+<div class="btn-group">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  Filter Orders by Status <span class="caret"></span>
+  </button>
+    <ul class="dropdown-menu">
+      <li><%= link_to "Paid Status", dashboard_orders_path(status: "paid") %></li>
+      <li><%= link_to "Complete Status", dashboard_orders_path(status: "complete") %></li>
+      <li><%= link_to "All Orders", dashboard_orders_path %></li>
+    </ul>
+  </div>
+
 <% @orders.each do |order|  %>
   <h3>Order #<%= link_to order.id, dashboard_order_show_path(:order_id => order.id) %></h3>
   <h5>Status: <%= order.status.capitalize %></h5>
@@ -36,16 +47,12 @@
     </tr>
     <% end %>
 
-    <tr>
+     </table>
     <% order_total = 0 %>
-      <td><h5>Order Total $<% order.order_items.each do |order_item| %>
+      <h5>Order Total $<% order.order_items.each do |order_item| %>
         <% order_total += order_item.product.price * order_item.quantity %>
         <% end %>
         <%= order_total %></h5>
-      </td>
-    </tr>
-      </table>
-        <td></tr>
     <% end %>
 
 <h4>Total Revenue: $ <%= total_revenue %></h4>
