@@ -29,11 +29,12 @@ html, body {
   background-image: image-url("catdog_small.png");
   background-repeat: no-repeat;
   height: 80px;
-  // background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.4);
 }
 
 .page-header h1{
   margin-left: 100px;
+  padding-top: 20px;
 }
 
 .thumbnail {
