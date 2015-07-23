@@ -1,13 +1,14 @@
 <h1>Welcome to Petcessories!</h1>
 <div class="row">
-<% @products.each do |product| %>
-  <div class="col-md-3">
+  <% @products.each do |product| %>
+    <div class="col-md-3">
      <div class="thumbnail">
-  <p><%= link_to product.name, product_path(product) %></p>
-  <p><%= image_tag(product.photo_url, class: "img-rounded", size: "160x140" ) %></p>
-  <%= link_to "View Product", product_path(product), class: "btn btn-primary" %>
+       <%= image_tag(product.photo_url, class: "img-rounded") %>
+       <div class="caption">
+         <%= link_to product.name, product_path(product) %>
+         <p><%= link_to "View Product", product_path(product), class: "btn btn-primary" %></p>
+      </div>
+     </div>
    </div>
- </div>
-<% end %>
+  <% end %>
 </div>
-
