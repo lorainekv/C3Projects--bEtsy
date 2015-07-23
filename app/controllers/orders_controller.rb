@@ -7,7 +7,13 @@ class OrdersController < ApplicationController
   def index
     @merchant = session[:user_id]
     @orders = Order.includes(:order_items).where(order_items: { user_id: @merchant } )
-    @order_item = OrderItem.find(params[:id])
+    # @order_item = OrderItem.find(params[:id])
+
+    if params[:status] == "paid"
+      @orders = @orders.where("status = ?", "paid")
+    elsif params[:status] == "complete"
+      @orders = @orders.where("status = ?", "Complete")
+    end
   end
 
 
