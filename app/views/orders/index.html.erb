@@ -32,8 +32,7 @@
       <% else %>
         <td>No</td>
       <% end %>
-
-      <td><%= link_to "Change Shipping Status", edit_order_item_path(order_item) %></td>
+      <td><%= link_to "Item Shipped",  order_item_path(order_item), method: :patch, class: "btn btn-default"  %></td>
     </tr>
     <% end %>
 

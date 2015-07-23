@@ -36,7 +36,8 @@ class OrderItemsController < ApplicationController
 
   def update
     @order_item = OrderItem.find(params[:id])
-    @order_item.update(create_params[:order_item])
+    @order_item.shipping = "Yes"
+    @order_item.save
 
     redirect_to dashboard_orders_path
   end
