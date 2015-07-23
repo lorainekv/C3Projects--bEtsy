@@ -7,7 +7,7 @@
   <% end %>
 
 <div class="col-md-4 col-center">
-  <p><%= image_tag(@product.photo_url, size: "300x200") %></p>
+  <p><%= image_tag(@product.photo_url, size: "300x300") %></p>
 </div>
 
 <div class="col-md-8" >
@@ -35,10 +35,11 @@
 </div>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-4 col-md-offset-4">
     <br>
     <br>
 <%= link_to "Leave a Review", new_product_review_path(@product), class: "btn btn-primary" %>
 <%= link_to "Add to Cart", new_item_path(@product), class: "btn btn-primary" %>
   </div>
 </div>
+

@@ -2,6 +2,11 @@
 
 <% total_revenue = 0 %>
 
+
+<h3 class="total">Total Orders: <%= @orders.count %></h3>
+<h3 class="total">Total Revenue: $ <%= total_revenue %></h3>
+
+
 <div class="btn-group">
   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
   Filter Orders by Status <span class="caret"></span>
@@ -12,6 +17,8 @@
       <li><%= link_to "All Orders", dashboard_orders_path %></li>
     </ul>
   </div>
+
+
 
 <% @orders.each do |order|  %>
 <div class="row">
@@ -62,6 +69,3 @@
         <hr>
     <% end %>
 
-
-<h3 class="total">Total Orders: <%= @orders.count %></h3>
-<h3 class="total">Total Revenue: $ <%= total_revenue %></h3>
