@@ -16,6 +16,7 @@ class OrderItemsController < ApplicationController
   end
 
   def create
+    @product = Product.find(params[:order_item][:product_id])
 
     increase_by = params[:order_item][:quantity].to_i
     existing_cart = session[:order_id]
@@ -27,9 +28,21 @@ class OrderItemsController < ApplicationController
       @item = current_order_item.first
       @item.quantity += increase_by
 
+      @before_quantity = @item.quantity
+      @after_quantity = @item.quantity += increase_by
+
+      if @before_quantity > @product.stock
+        flash.now[:error] = "We're Sorry, This Item is Out of Stock"
+        render 'new'
+        return
+      else
+        @item.quantity += increase_by
+      end
+
+
     else
       @item = OrderItem.create(create_params[:order_item])
-    
+
     end
     # If we don't have an order_id in the session, create one
     unless session[:order_id]
