@@ -8,6 +8,8 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "GET index" do
+
+
     it "renders the :index view for all Vendors" do
        get :index
        expect(response).to render_template("index")
@@ -20,7 +22,48 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+  describe "GET #new" do
 
+    it "responds with an HTTP 200 status" do
+      get :new
+      expect(response).to be_success
+      expect(response).to have_http_status(200)
+    end
+
+  end
+
+  describe "POST #create" do
+    context "with valid user params" do
+
+      let (:user_params) do
+        {
+          username: "Stimpy",
+          email: "whamo@whamo.com",
+          password: "log",
+          password_confirmation: "log"}
+      end
+
+      it "creates a new user" do
+        post :create, :user => user_params
+        expect(User.count).to eq(3) #Since two test records already exist
+      end
+    end
+
+    context "with invalid user params" do
+      let (:yuck_user) do
+        {
+          username: "Eeeediot",
+          email: "whamo@whamo.com",
+          password: "log",
+          password_confirmation: "song"}
+      end
+
+      it "doesn't create a new user" do
+        post :create, :user => yuck_user
+        expect(response).to redirect_to(signup_path)
+      end
+    end
+  end
 
   describe "GET #show" do
 

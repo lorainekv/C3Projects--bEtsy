@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
   def index
-    @products = Product.all
+    @products = Product.active
   end
 
 end
