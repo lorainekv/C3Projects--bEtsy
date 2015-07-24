@@ -33,39 +33,15 @@ RSpec.describe OrderItemsController, type: :controller do
   end
 
   describe "POST create" do
-    let (:params) do {order_item: {id: 1, name: "a name", quantity: 1, product_id: 1 }}
+    let (:params) do {order_item: {id: 1, quantity: 1, product_id: 1 }}
     end
 
     it "creates a new OrderItem" do
+      @product = Product.create(id: 1, name: "some name", price: 1, user_id: 1, status: "active")
+
       post :create, params
 
-      expect(OrderItem.count).to eq 1
-    end
-
-    it "redirects to the cart index page" do
-      post :create, params
-
-      expect(subject).to redirect_to(cart_path)
-    end
-
-    context "2 Orders Exist with the Same Order_Id/Session_Id  " do
-      let (:params) do
-        {order_item: {quantity: 1, order_id: 566, product_id: 2, user_id: 1}}
-      end
-
-      before do
-        OrderItem.create(params[:order_item])
-        OrderItem.create(params[:order_item])
-      end
-
-      after(:each) do
-        OrderItem.where(order_id: 566).destroy_all
-      end
-      it "Will Raise an Error" do
-        expect {post :create, params, {order_id: 566}}.to raise_error("extra carts found" )
-
-
-      end
+      expect(OrderItem.count).to eq(1)
     end
 
   end
