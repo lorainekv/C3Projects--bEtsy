@@ -60,6 +60,10 @@ class OrderItemsController < ApplicationController
     @order_item = OrderItem.find(params[:id])
   end
 
+  def quantity
+    @order_item = OrderItem.find(params[])
+  end
+
   def update
     @order_item = OrderItem.find(params[:id])
     @order_item.shipping = "Yes"
