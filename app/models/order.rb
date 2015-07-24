@@ -5,4 +5,6 @@ class Order < ActiveRecord::Base
 # VALIDATIONS
 # --------------------------------------------------------------------
   validates_with OrderValidator, :on => :update
+
+
 end

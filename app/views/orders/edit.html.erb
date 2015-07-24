@@ -9,20 +9,20 @@
 <%= form_for :checkout, url: "/receipt" do |f| %>
 <div class="form-group">
   <%= f.label :name, "Name" %>
-  <%= f.text_field :name, class: "form-control" %>
+  <%= f.text_field :name, required: true, class: "form-control" %>
 
   <%= f.label :email, "Email" %>
-  <%= f.text_field :email, class: "form-control"  %>
+  <%= f.text_field :email, required: true, class: "form-control"  %>
 
   <%= f.label :address, "Address" %>
-  <%= f.text_field :address, class: "form-control"  %>
+  <%= f.text_field :address, required: true,class: "form-control"  %>
 
 
   <%= f.label :zipcode, "Zipcode" %>
-  <%= f.text_field :zipcode, class: "form-control"  %>
+  <%= f.text_field :zipcode, required: true,class: "form-control"  %>
 
   <%= f.label :cc4, "Credit Card Number" %>
-  <%= f.password_field :cc4, class: "form-control"  %>
+  <%= f.password_field :cc4, required: true,class: "form-control"  %>
 
   <%= f.label :expiry_date, "CC Expiration Date" %>
   <%= f.date_select :expiry_date, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :use_month_numbers => true, class: "form-control"  %>
