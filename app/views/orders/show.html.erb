@@ -3,5 +3,5 @@
 <p>Name: <%= @order.name %></p>
 <p>Email: <%= @order.email %></p>
 <p>Address: <%= @order.address %></p>
-<p>CC: <%= @order.cc4 %></p>
+<p>CC: <%= @order.cc4.to_s.slice(-4..-1).to_i %></p>
 <p>Exp Date: <%= @order.expiry_date.strftime("%Y/%m") %></p>
