@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   get "/dashboard/:id" => 'users#dashboard', as: 'dashboard'
   get "/dashboard/:id/orders" => 'orders#index', as: 'dashboard_orders'
   get "/dashboard/:id/orders/:order_id" => 'orders#show', as: 'dashboard_order_show'
-  patch "/cart" => 'order_items#quantity', as: 'quantity'
+  patch "/cart" => 'order_items#quantity_update', as: 'quantity_update'
 
 
 
