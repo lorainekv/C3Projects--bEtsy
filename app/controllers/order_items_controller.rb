@@ -26,19 +26,21 @@ class OrderItemsController < ApplicationController
     if current_order_item.present?
       raise "extra carts found" if current_order_item.count > 1
       @item = current_order_item.first
-      @item.quantity += increase_by
-
       @before_quantity = @item.quantity
-      @after_quantity = @item.quantity += increase_by
 
-      if @before_quantity > @product.stock
+      if @before_quantity >= @product.stock
         flash.now[:error] = "We're Sorry, This Item is Out of Stock"
         render 'new'
         return
       else
-        @item.quantity += increase_by
+        if @before_quantity + increase_by > @product.stock
+          flash.now[:error] = "There aren't enough left!"
+          render 'new'
+          return
+        else
+          @item.quantity += increase_by
+        end
       end
-
 
     else
       @item = OrderItem.create(create_params[:order_item])
