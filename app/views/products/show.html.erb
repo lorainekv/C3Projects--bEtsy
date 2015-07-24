@@ -22,8 +22,9 @@
 <% end %>
 
 <% unless @reviews == nil %>
-  <table>
-    <th>Reviews</th>
+  <table class="table">
+    <th>Rating</th>
+    <th>Review</th>
     <% @reviews.each do |review| %>
       <tr>
         <td> <%= review.rating %> </td>
@@ -42,4 +43,3 @@
 <%= link_to "Add to Cart", new_item_path(@product), class: "btn btn-primary" %>
   </div>
 </div>
-

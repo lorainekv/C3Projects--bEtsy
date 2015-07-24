@@ -8,7 +8,7 @@
       <%= f.select :rating, [['1',1],['2',2],['3',3], ['4',4], ['5',5]] %>
 
       <%= f.label :text_review, "Tell us what you really think!" %>
-      <%= f.text_area :text_review %>
+      <%= f.text_area :text_review, class:"form-control"%>
 
       <%= f.hidden_field :product_id, :value => (params[:product_id]) %>
 
