@@ -1,6 +1,5 @@
 <h1>Shipping & Billing Information </h1>
 
-
 <% if flash.now[:error] %>
   <div>
     <%=flash.now[:error] %>
@@ -8,24 +7,27 @@
 <%end%>
 
 <%= form_for :checkout, url: "/receipt" do |f| %>
+<div class="form-group">
+  <%= f.label :name, "Name" %>
+  <%= f.text_field :name, class: "form-control" %>
 
-<%= f.label :name, "Name" %>
-<%= f.text_field :name %>
-<br/>
-<%= f.label :email, "Email" %>
-<%= f.text_field :email %>
-<br/>
-<%= f.label :address, "Address" %>
-<%= f.text_field :address %>
-<br/>
-<%= f.label :cc4, "Credit Card Number" %>
-<%= f.password_field :cc4 %>
-<br/>
-<%= f.label :expiry_date, "CC Expiration Date" %>
-<%= f.date_select :expiry_date, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :use_month_numbers => true %>
-<br/>
-<%= f.label :zipcode, "Zipcode" %>
-<%= f.text_field :zipcode %>
-<br/>
-<%= f.submit "Purchase", class: "btn btn-success" %>
+  <%= f.label :email, "Email" %>
+  <%= f.text_field :email, class: "form-control"  %>
+
+  <%= f.label :address, "Address" %>
+  <%= f.text_field :address, class: "form-control"  %>
+
+
+  <%= f.label :zipcode, "Zipcode" %>
+  <%= f.text_field :zipcode, class: "form-control"  %>
+
+  <%= f.label :cc4, "Credit Card Number" %>
+  <%= f.password_field :cc4, class: "form-control"  %>
+
+  <%= f.label :expiry_date, "CC Expiration Date" %>
+  <%= f.date_select :expiry_date, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :use_month_numbers => true, class: "form-control"  %>
+
+<br>
+  <%= f.submit "Purchase", class: "btn btn-success" %>
+</div>
 <% end %>
