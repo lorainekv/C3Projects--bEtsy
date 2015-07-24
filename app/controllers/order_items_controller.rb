@@ -23,10 +23,12 @@ class OrderItemsController < ApplicationController
     current_product_id = params[:order_item][:product_id]
     current_order_item = OrderItem.where(product_id: current_product_id , order_id: existing_cart)
 
+
     if current_order_item.present?
       raise "extra carts found" if current_order_item.count > 1
       @item = current_order_item.first
       @before_quantity = @item.quantity
+
 
       if @before_quantity >= @product.stock
         flash.now[:error] = "We're Sorry, This Item is Out of Stock"
@@ -34,6 +36,7 @@ class OrderItemsController < ApplicationController
         return
       else
         if @before_quantity + increase_by > @product.stock
+
           flash.now[:error] = "There aren't enough left!"
           render 'new'
           return
@@ -55,6 +58,7 @@ class OrderItemsController < ApplicationController
     @item.order_id = session[:order_id]
     @item.save
 
+
     redirect_to cart_path
   end
 
@@ -64,17 +68,18 @@ class OrderItemsController < ApplicationController
 
   def quantity_update
     @order_item = OrderItem.find(params[:order_item][:id])
-    @order_item.quantity = params[:order_item][:quantity]
-    @order_item.save
-
     @product = Product.find(@order_item.product_id)
     @stock = @product.stock
-    if @order_item.quantity > @stock
+
+    if params[:order_item][:quantity].to_i > @stock
       flash.now[:error] = "We don't have that many in stock!"
-    render "products/show"
-    return
+      render "products/show"
+      return
+    else
+      @order_item.quantity = params[:order_item][:quantity]
+      @order_item.save
+      redirect_to cart_path
     end
-    redirect_to cart_path
   end
 
   def update
