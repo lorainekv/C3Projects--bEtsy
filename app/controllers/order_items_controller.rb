@@ -64,6 +64,14 @@ class OrderItemsController < ApplicationController
     @order_item = OrderItem.find(params[:order_item][:id])
     @order_item.quantity = params[:order_item][:quantity]
     @order_item.save
+
+    @product = Product.find(@order_item.product_id)
+    @stock = @product.stock
+    if @order_item.quantity > @stock
+      flash.now[:error] = "We don't have that many in stock!"
+    render "products/show"
+    return
+    end
     redirect_to cart_path
   end
 
