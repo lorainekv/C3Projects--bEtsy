@@ -4,6 +4,14 @@
 <% @order_items.each do |item| %>
   <p>Product: <%= item.product.name %></p>
   <p>Quantity: <%= item.quantity %></p>
+
+  <%= form_for item, url: quantity_path, method: :patch do |f| %>
+    <%= f.label :quantity %>
+    <%= f.number_field :quantity, min: 0, max:"#{@stock}" %>
+
+    <%= f.submit "Update Quantity" %>
+    <% end %>
+raise
   <p><%= link_to "Remove from Cart", delete_item_path(item), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure you want to delete this?"} %></p>
 <% end %>
 
@@ -15,4 +23,3 @@
 
 
 <p><%= link_to "Continue Shopping", products_path, class: "btn btn-primary" %></p>
-

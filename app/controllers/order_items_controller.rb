@@ -29,7 +29,7 @@ class OrderItemsController < ApplicationController
 
     else
       @item = OrderItem.create(create_params[:order_item])
-    
+
     end
     # If we don't have an order_id in the session, create one
     unless session[:order_id]
@@ -45,6 +45,10 @@ class OrderItemsController < ApplicationController
 
   def edit
     @order_item = OrderItem.find(params[:id])
+  end
+
+  def quantity
+    @order_item = OrderItem.find(params[])
   end
 
   def update
