@@ -1,7 +1,7 @@
 <h1> Log In Page </h1>
 
 <% if flash.now[:error] %>
-  <div>
+  <div class="alert alert-danger" role="alert">
     <%=flash.now[:error] %>
   </div>
 <%end%>
