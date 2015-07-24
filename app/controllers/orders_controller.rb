@@ -11,6 +11,7 @@ class OrdersController < ApplicationController
     elsif params[:status] == "complete"
       @orders = @orders.where("status = ?", "Complete")
     end
+    render :index
   end
 
 

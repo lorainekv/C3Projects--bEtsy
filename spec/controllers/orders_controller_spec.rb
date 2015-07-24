@@ -5,27 +5,31 @@ RSpec.describe OrdersController, type: :controller do
 
   describe "GET #index" do
 
+    before(:each) do
+      @order1 = Order.create(id: 1)
+      @order2 = Order.create(id: 2)
+      @order_item1 = OrderItem.create(quantity: 1, order_id: 1, product_id: 1, user_id: 1, shipping: "unshipped")
+      @order_item2 = OrderItem.create(quantity: 1, order_id: 2, product_id: 1, user_id: 1, shipping: "unshipped")
+      @user = User.create(:username => "First Vendor Name", :email => "test@email.com", :password => "unigoat", :password_confirmation => "unigoat")
+    end
+
     it "renders the :index view for a User's orders" do
-       get :index
-       expect(response).to render_template("index")
+      session[:user_id] = @order_item1.user_id
+
+      get :index
+
+      expect(response).to be_success
+      expect(response.status).to eq(200)
     end
 
     it "loads all orders into @orders" do
-      order, order2 = Order.create(id: 1), Order.create(id:2)
-      item, item2 = OrderItem.create(quantity: 1, order_id: 1, product_id: 1), OrderItem.create(quantity: 1, order_id: 2, product_id: 1)
+      session[:user_id] = @order_item1.user_id
+
       get :index
-      expect(assigns(:orders)).to match_array([order, order2])
+
+      expect(assigns(:orders)).to match_array([@order1, @order2])
     end
   end
-
-  # describe "GET #new" do
-  #   it "saves a new blank instance of an order in a variable" do
-  #     @order = Order.new(id: 5)
-  #     @order.save
-  #     get :new
-  #     expect(Order.count).to eq 1
-  #   end
-  # end
 
   describe "GET #show " do
     before(:each) do
