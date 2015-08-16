@@ -42,7 +42,7 @@ RSpec.describe ProductsController, type: :controller do
       it "creates a new Product" do
         post :create, params, :user_id => 1
 
-        expect(Product.count).to eq 1
+        expect(Product.count).to eq @user.id
       end
     end
 
@@ -68,7 +68,6 @@ RSpec.describe ProductsController, type: :controller do
     it "updates an existing record" do
       session[:user_id] = 1
       @product = Product.create(id: 1, name: "some name", price: 4, user_id: 1, status: "active")
-      @product.save
 
       patch :update, id: @product.id, product: { id: 1, name: "A new name", price: 12, user_id: 1}
       @product.reload

@@ -101,6 +101,14 @@ class OrderItemsController < ApplicationController
 
   private
 
+  def new_order
+    unless session[:order_id]
+      @order = Order.create
+      @order.status = "pending"
+      session[:order_id] = @order.id
+    end
+  end
+
   def create_params
     params.permit(order_item: [:quantity, :order_id, :product_id, :user_id, :shipping])
   end
