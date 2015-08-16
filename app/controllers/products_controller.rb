@@ -27,7 +27,6 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    @categories = Category.all
     if session[:user_id] != @product.user_id
       redirect_to product_path(@product)
     end
