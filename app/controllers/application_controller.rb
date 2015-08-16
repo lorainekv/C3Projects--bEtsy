@@ -24,13 +24,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_path unless session[:user_id]
   end
 
-  def new_order
-    unless session[:order_id]
-      @order = Order.create
-      @order.status = "pending"
-      session[:order_id] = @order.id
-    end
-  end
 
   def update_stock
     @order = Order.find(session[:order_id])
