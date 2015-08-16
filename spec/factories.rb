@@ -4,6 +4,22 @@ FactoryGirl.define do
     name "Goats in Smoking Jackets"
   end
 
+  factory :product do
+    name "Goat monocle"
+    price "1000"
+    description "baaaaaa"
+    stock 10
+    user_id 1
+    status "active"
+  end
+
+  factory :order_item do
+    quantity 10
+    order_id 1
+    product_id 1
+    user_id 1
+  end
+
   factory :user do
     username "moo"
     email "moo@moo.moo"
