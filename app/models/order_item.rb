@@ -9,4 +9,5 @@ class OrderItem < ActiveRecord::Base
 # SCOPES
 # --------------------------------------------------------------------
 
+
 end

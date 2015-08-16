@@ -1,5 +1,5 @@
 class OrderItemsController < ApplicationController
-
+  before_action :find_order_item, only: [:edit, :quantity_update, :update, :destroy]
 
   def index
     @order_items = OrderItem.joins(:order).where('orders.status' => 'pending').where('orders.id' => session[:order_id])
@@ -8,7 +8,7 @@ class OrderItemsController < ApplicationController
   def new
     @item = OrderItem.new
     @product = Product.find(params[:product_id])
-    @merchant = Product.find(params[:product_id]).user_id
+    @merchant = @product.user_id
     @stock = @product.stock
     if @stock == 0
       flash.now[:error] = "We're Sorry, This Item is Currently Sold Out!"
@@ -25,6 +25,7 @@ class OrderItemsController < ApplicationController
 
 
     if current_order_item.present?
+      # line b is probably the extra unecessary code
       raise "extra carts found" if current_order_item.count > 1
       @item = current_order_item.first
       @before_quantity = @item.quantity
@@ -58,16 +59,15 @@ class OrderItemsController < ApplicationController
     @item.order_id = session[:order_id]
     @item.save
 
-
     redirect_to cart_path
   end
 
   def edit
-    @order_item = OrderItem.find(params[:id])
+    @order_item
   end
 
   def quantity_update
-    @order_item = OrderItem.find(params[:order_item][:id])
+    @order_item
     @product = Product.find(@order_item.product_id)
     @stock = @product.stock
 
@@ -83,7 +83,6 @@ class OrderItemsController < ApplicationController
   end
 
   def update
-    @order_item = OrderItem.find(params[:id])
     @order_item.shipping = "Yes"
     @order_item.save
     order_complete
@@ -91,9 +90,13 @@ class OrderItemsController < ApplicationController
   end
 
   def destroy
-    @item = OrderItem.find(params[:id])
-    @item.destroy
+    @order_item
+    @order_item.destroy
     redirect_to cart_path
+  end
+
+  def find_order_item
+     @order_item = OrderItem.find(params[:id])
   end
 
   private
