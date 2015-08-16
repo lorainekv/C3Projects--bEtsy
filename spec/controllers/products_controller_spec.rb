@@ -42,7 +42,7 @@ RSpec.describe ProductsController, type: :controller do
       it "creates a new Product" do
         post :create, params, :user_id => 1
 
-        expect(Product.count).to eq 1
+        expect(Product.count).to eq @user.id
       end
     end
 
