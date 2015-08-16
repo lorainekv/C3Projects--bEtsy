@@ -9,7 +9,9 @@ RSpec.describe CategoriesController, type: :controller do
     end
 
     it "loads all categories into @categories" do
-      category1, category2 = Category.create(:name => "First Category Name"), Category.create(:name => "2nd Category Name")
+      category1 = create :category
+      category2 = create :category, name: "Hogs in Clogs"
+
       get :index
       expect(assigns(:categories)).to match_array([category1, category2])
     end
@@ -17,7 +19,7 @@ RSpec.describe CategoriesController, type: :controller do
 
   describe "GET #show" do
     before(:each) do
-      @category = Category.create(:name => "First Category Name")
+      @category = create :category
     end
 
     after :each do
@@ -35,13 +37,17 @@ RSpec.describe CategoriesController, type: :controller do
     end
   end
 
-  describe "GET#New" do
-    it "saves a new blank instance of a category in a variable" do
-      @category = Category.new(id: 1, name: "a new category")
-      @category.save
+  #Since the following methods require a user to be logged in...
+  before(:each) do
+    @user = create :user
+    session[:user_id] = @user.id
+  end
 
+  describe "GET#New" do
+    it "renders the new form" do
       get :new
-      expect(Category.count).to eq 1
+
+      expect(response).to render_template(:new)
     end
   end
 
@@ -50,7 +56,6 @@ RSpec.describe CategoriesController, type: :controller do
       end
 
       it "creates a new category" do
-        session[:user_id] = 1
         post :create, params
 
         expect(Category.count).to eq 1
