@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
     before_action :order_page_access, only: [:index]
+    before_action :find_order, only: [:edit, :show, :update]
 
   def index
     @merchant = session[:user_id]
@@ -16,18 +17,16 @@ class OrdersController < ApplicationController
 
 
   def edit
-    @order = Order.find(session[:order_id])
+    @order
     render :edit
   end
 
   def show
-    @order = Order.find(params[:order_id])
     render :show
   end
 
   def update
-
-    @order = Order.find(session[:order_id])
+    @order
     @order.update(create_params[:checkout])
     if @order.order_items.length > 0
       @order.status = 'paid'
@@ -46,6 +45,10 @@ class OrdersController < ApplicationController
       flash.now[:error] = "Order must have at least one item."
       render :edit
     end
+  end
+
+  def find_order
+    @order = Order.find(session[:order_id])
   end
 
   private

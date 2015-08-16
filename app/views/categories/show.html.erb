@@ -8,7 +8,7 @@
 
 <h1><%= @category.name  %> </h1>
 <div class="row">
-<% @category.products.where(status: "active").each do |product| %>
+<% @products.each do |product| %>
   <div class="col-md-3">
      <div class="thumbnail">
   <p><%= link_to product.name, product_path(product) %></p>
