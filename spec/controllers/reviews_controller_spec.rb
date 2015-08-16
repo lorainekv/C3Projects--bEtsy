@@ -28,7 +28,6 @@ RSpec.describe ReviewsController, type: :controller do
 
   describe "POST #create" do
     context "Valid reviews params do" do
-
       let (:review_params) do
               {
                 rating: 4,
@@ -39,11 +38,10 @@ RSpec.describe ReviewsController, type: :controller do
       it "creates a review" do
               post :create, :product_id => 1, :review => review_params
               expect(Review.count).to eq(1)
-        end # it
-    end # context
+        end
+    end
 
     context "When records are invalid" do
-
       let (:bad_params) do
               {
                 rating: nil,
@@ -53,9 +51,9 @@ RSpec.describe ReviewsController, type: :controller do
 
       it "won't create invalid review records" do
         post :create, :product_id => 1, :review => bad_params
-        expect(response).to redirect_to(new_product_review_path(assigns[:review][:product_id]))
+        expect(response).to redirect_to(new_product_review_path)
       end
     end
 
-  end # second describe
-end # first describe
+  end
+end
