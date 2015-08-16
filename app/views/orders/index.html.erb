@@ -36,12 +36,12 @@
 
     <% order.order_items.each do |order_item| %>
     <tr>
-      <% total_revenue += order_item.quantity * order_item.product.price  %>
+      <% total_revenue += subtotal(order_item.quantity, order_item.product.price)  %>
       <td><%=link_to order_item.product.name, product_path(order_item.product.id) %></td>
       <td>$ <%= order_item.product.price %></td>
       <td>x</td>
       <td><%= order_item.quantity %></td>
-      <td><%= order_item.product.price * order_item.quantity %></td>
+      <td><%= subtotal(order_item.product.price, order_item.quantity) %></td>
 
       <% if order_item.shipping %>
         <td>Yes</td>
@@ -57,7 +57,7 @@
 
     <% order_total = 0 %>
       <h4>Order Total $<% order.order_items.each do |order_item| %>
-        <% order_total += order_item.product.price * order_item.quantity %>
+        <% order_total += subtotal(order_item.product.price, order_item.quantity) %>
         <% end %>
         <%= order_total %></h4>
         </div>
