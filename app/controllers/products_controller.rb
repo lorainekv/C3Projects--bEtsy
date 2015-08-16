@@ -43,6 +43,26 @@ class ProductsController < ApplicationController
 
   private
 
+  def update_stock
+    @order = Order.find(session[:order_id])
+
+    @order.order_items.each do |item|
+      quantity = item.quantity
+      # looking for the corresponding product
+      right_product = Product.find(item.product_id)
+
+      right_product.stock -= quantity
+
+      right_product.save
+
+      # for each order, get the quantity tied to each item
+      # look up its corresponding products
+      # decrease the product stock
+      # save updated product
+
+    end
+  end
+
   def create_params
     params.permit(product: [:name, :description, :price, :stock, :photo_url, :user_id, :status, {:category_ids => [] }])
 
