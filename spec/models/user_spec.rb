@@ -32,7 +32,7 @@ RSpec.describe User, type: :model do
       expect(@other_user.errors[:email]).to include("has already been taken")
   end
 
-  it "requires an email to contain an ampersand" do
+  it "requires an email to contain an @ sign" do
     bad_email = User.create(username: "shazam", email: "goatscoatscom", password: "unigoats")
     bad_email.valid?
     expect(bad_email).to_not be_valid

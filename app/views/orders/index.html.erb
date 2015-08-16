@@ -21,7 +21,7 @@
   <div class="col-md-10">
   <h3>Order #<%= link_to order.id, dashboard_order_show_path(:order_id => order.id) %></h3>
   <h4>Status: <%= order.status.capitalize %></h4>
-  <h4>Order Placed: <%= order.created_at.localtime.strftime("%B %-d, %Y %I:%M %p") %></h4>
+  <h4>Order Placed: <%= pretty_time(order.created_at) %></h4>
 
   <table class="table">
     <tr>
