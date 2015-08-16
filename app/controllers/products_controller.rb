@@ -1,12 +1,12 @@
 class ProductsController < ApplicationController
   before_action :require_login, only: [:new, :create, :edit, :update]
+  before_action :set_product, only: [:show, :edit, :update]
 
   def index
     @products = Product.active
   end
 
   def show
-    @product = Product.find(params[:id])
     @reviews = @product.reviews
   end
 
@@ -27,7 +27,6 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    @product = Product.find(params[:id])
     @categories = Category.all
     if session[:user_id] != @product.user_id
       redirect_to product_path(@product)
@@ -35,7 +34,6 @@ class ProductsController < ApplicationController
   end
 
   def update
-    @product = Product.find(params[:id])
     @product.update(create_params[:product])
 
     redirect_to dashboard_path(session[:user_id])
@@ -43,8 +41,11 @@ class ProductsController < ApplicationController
 
   private
 
+  def set_product
+    @product = Product.find(params[:id])
+  end
+
   def create_params
     params.permit(product: [:name, :description, :price, :stock, :photo_url, :user_id, :status, {:category_ids => [] }])
-
   end
 end
