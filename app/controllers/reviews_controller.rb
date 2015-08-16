@@ -11,9 +11,9 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    @review = Review.new(create_params[:review])
+    review = Review.new(create_params[:review])
 
-    if @review.save
+    if review.save
       redirect_to product_path(params[:product_id])
     else
       redirect_to new_product_review_path(params[:product_id])
