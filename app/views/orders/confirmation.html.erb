@@ -16,8 +16,6 @@
     <p>Quantity Ordered: <%= order_item.quantity %></p>
   <% end %>
 
-  <p>Order placed on:  <%= @time.localtime.strftime("%B %-d, %Y %I:%M %p") %>
+  <p>Order placed on:  <%= pretty_time(@time) %>
   <p>Order Status: <%= @order.status.capitalize %></p>
   <p>Total Purchase: $ <%= total  %>
-
-
