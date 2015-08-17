@@ -3,24 +3,21 @@ require 'pry'
 RSpec.describe ReviewsController, type: :controller do
 
   before :each do
-    @product = Product.new(name: 'a', price: 10, stock: 1, user_id: 2, status: "active")
-    @product.save
+    @product = create :product
   end
 
   describe "GET #new" do
 
-    it "responds with an HTTP 200 status" do
+    it "renders the new template" do
       get :new, :product_id => @product.id
-      expect(response).to be_success
-      expect(response).to have_http_status(200)
+      expect(response).to render_template(:new)
     end
 
     it "won't let vendors review their own items" do
-      session[:user_id] = 2
+      session[:user_id] = 1
 
       get :new, :product_id => @product.id
 
-      expect(response).to redirect_to(product_path(assigns[:product][:id]))
       expect(flash[:error]).to eq("You cannot leave a review on your own item!")
     end
 
