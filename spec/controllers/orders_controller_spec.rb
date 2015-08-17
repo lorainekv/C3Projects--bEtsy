@@ -6,11 +6,11 @@ RSpec.describe OrdersController, type: :controller do
   describe "GET #index" do
 
     before(:each) do
-      @order1 = Order.create(id: 1)
-      @order2 = Order.create(id: 2)
-      @order_item1 = OrderItem.create(quantity: 1, order_id: 1, product_id: 1, user_id: 1, shipping: "unshipped")
-      @order_item2 = OrderItem.create(quantity: 1, order_id: 2, product_id: 1, user_id: 1, shipping: "unshipped")
-      @user = User.create(:username => "First Vendor Name", :email => "test@email.com", :password => "unigoat", :password_confirmation => "unigoat")
+      @order1 = create :order
+      @order2 = create :order , id: 2
+      @order_item1 = create :order_item, order_id: 1, shipping: "unshipped"
+      @order_item2 = create :order_item, order_id: 2, shipping: "unshipped"
+      @user = create :user
     end
 
     it "renders the :index view for a User's orders" do
@@ -33,13 +33,9 @@ RSpec.describe OrdersController, type: :controller do
 
   describe "GET #show " do
     before(:each) do
-      @order = Order.create(id: 1)
-      @item = OrderItem.create(quantity: 1, order_id: 1, product_id: 1)
+      @order = create :order
+      @item = create :order_item
       session[:order_id] = @order.id
-    end
-
-    after :each do
-      @order.destroy
     end
 
     it "allows vendors to see their orders" do
@@ -51,14 +47,10 @@ RSpec.describe OrdersController, type: :controller do
 
   describe "PATCH #update" do
     before(:each) do
-      @product = Product.create(name: 'Doll', price: 10, user_id: 1, status: 'active')
-      @order = Order.create(status: "pending")
-      @item = OrderItem.create(quantity: 1, order_id: @order.id, product_id: @product.id)
+      @product = create :product
+      @order = create :order, status: "pending"
+      @item = create :order_item, order_id: @order.id, product_id: @product.id
       session[:order_id] = @order.id
-    end
-
-    after :each do
-      @order.destroy
     end
 
     it "changes the order status to 'paid'" do
@@ -71,8 +63,5 @@ RSpec.describe OrdersController, type: :controller do
       patch :update, :id => @order.id, checkout: {status: "paid"}
       expect(session[:order_id]).to eq(nil)
     end
-
   end
-
-
 end

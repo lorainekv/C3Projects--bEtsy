@@ -20,6 +20,13 @@ FactoryGirl.define do
     user_id 1
   end
 
+  factory :order do
+    name "jen"
+    email "jen@jen.com"
+    address "111 Street Name"
+    cc4 3949
+  end
+
   factory :user do
     username "moo"
     email "moo@moo.moo"
