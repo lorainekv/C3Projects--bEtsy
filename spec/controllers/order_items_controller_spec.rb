@@ -13,22 +13,14 @@ RSpec.describe OrderItemsController, type: :controller do
     end
   end
 
+  before :each do
+    @product = create :product
+  end
+
   describe "GET new" do
-
-    before :each do
-      @product = Product.new(id: 1, name: "some name", price: 1, user_id: 1, status: "active")
-      @item = OrderItem.new(quantity: 2, product_id: 1)
-      @product.save
-    end
-
-    it "saves a new blank instance of item in a variable" do
+    it "loads the new template" do
       get :new, :product_id => @product.id
-      expect(@item.quantity).to eq 2
-    end
-
-    it "renders a new page" do
-      get :new, :product_id => @product.id
-      expect(subject).to render_template(:new)
+      expect(response).to render_template(:new)
     end
   end
 
@@ -37,8 +29,6 @@ RSpec.describe OrderItemsController, type: :controller do
     end
 
     it "creates a new OrderItem" do
-      @product = Product.create(id: 1, name: "some name", price: 1, user_id: 1, status: "active")
-
       post :create, params
 
       expect(OrderItem.count).to eq(1)
@@ -47,16 +37,12 @@ RSpec.describe OrderItemsController, type: :controller do
   end
 
   describe "DELETE destroy" do
-    before :each do
-      @item1 = OrderItem.new(id: 1, quantity: 1, product_id: 1)
-      @item1.save
-    end
-
     it "deletes item from the database" do
-      delete :destroy, id: @item1.id, item1: { id: 1, quantity: 1, product_id: 1 }
+      item = create :order_item
+
+      delete :destroy, id: item.id
 
       expect(OrderItem.count).to eq 0
     end
   end
-
 end

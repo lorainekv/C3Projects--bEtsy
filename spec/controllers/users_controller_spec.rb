@@ -3,12 +3,11 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
 
   before(:each) do
-    @user1 = User.create(:username => "First Vendor Name", :email => "test@email.com", :password => "unigoat", :password_confirmation => "unigoat")
-    @user2 = User.create(:username => "Second Vendor Name", :email => "test2@email.com", :password => "unigoatess", :password_confirmation => "unigoatess")
+    @user1 = create :user
+    @user2 = create :user, :username => "Second Vendor Name", email: "second@vendor.com"
   end
 
   describe "GET index" do
-
 
     it "renders the :index view for all Vendors" do
        get :index
@@ -24,10 +23,9 @@ RSpec.describe UsersController, type: :controller do
 
   describe "GET #new" do
 
-    it "responds with an HTTP 200 status" do
+    it "renders the new template" do
       get :new
-      expect(response).to be_success
-      expect(response).to have_http_status(200)
+      expect(response).to render_template(:new)
     end
 
   end
