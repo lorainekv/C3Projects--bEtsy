@@ -49,6 +49,17 @@ class OrdersController < ApplicationController
   def find_order
     @order = Order.find(session[:order_id])
   end
+  def review
+    raise
+
+    # Order.order_items.each |item| do
+      # User.find(item.user.id)city, state, zipcode = origin
+      # Product.find(item.product_id).weight, dimensions = packages
+      #destination info in order/checkout form
+
+      # how to we match packages with users(nesting?)
+    # end
+  end
 
   private
 
@@ -73,10 +84,11 @@ class OrdersController < ApplicationController
         @order.save
       end
   end
-   
-  def shipping_rates
-    binding.pry
-  end
+  
+
+  # def shipping_rates
+  # end
+
 
   def create_params
     params.permit(checkout: [:name, :email, :address, :cc4, :expiry_date])

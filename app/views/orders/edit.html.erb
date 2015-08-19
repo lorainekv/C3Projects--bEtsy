@@ -6,7 +6,7 @@
   </div>
 <%end%>
 
-<%= form_for :checkout, url:shipping_rates_path(@order.id) method: :get do |f| %>
+<%= form_for :checkout, url:review_path(@order.id), method: :get do |f| %>
 <div class="form-group">
   <%= f.label :name, "Name" %>
   <%= f.text_field :name, required: true, class: "form-control" %>
