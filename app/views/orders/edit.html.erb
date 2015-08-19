@@ -6,7 +6,7 @@
   </div>
 <%end%>
 
-<%= form_for :checkout, url: "/receipt" do |f| %>
+<%= form_for :checkout, url:shipping_rates_path(@order.id) method: :get do |f| %>
 <div class="form-group">
   <%= f.label :name, "Name" %>
   <%= f.text_field :name, required: true, class: "form-control" %>
@@ -15,7 +15,7 @@
   <%= f.text_field :email, required: true, class: "form-control"  %>
 
   <%= f.label :address, "Address" %>
-  <%= f.text_field :address, required: true,class: "form-control"  %>
+  <%= f.text_field :address, required: true,class: "form-control" %>
 
   <%= f.label :city %>
   <%= f.text_field :city, required: true, class: 'form-control' %>
@@ -24,13 +24,16 @@
   <%= f.select :state, Order::US_STATES, { include_blank: true }, { class: 'form-control' } %>
 
   <%= f.label :zipcode, "Zipcode" %>
-  <%= f.text_field :zipcode, required: true,class: "form-control"  %>
+  <%= f.text_field :zipcode, required: true,class: "form-control" %>
 
-  <%= f.label :cc4, "Credit Card Number" %>
-  <%= f.password_field :cc4, required: true,class: "form-control"  %>
+  <%= f.hidden_field  :id, :value => order_item[:user_id] %>
+  <%# f.hidden_field_tag :user_id, value: @order.user.id %>
 
-  <%= f.label :expiry_date, "CC Expiration Date" %>
-  <%= f.date_select :expiry_date,
+  <%# f.label :cc4, "Credit Card Number" %>
+  <%#f.password_field :cc4, required: true,class: "form-control"  %>
+
+  <%# f.label :expiry_date, "CC Expiration Date" %>
+  <%# f.date_select :expiry_date,
                     :discard_day => true,
                     :start_year => Date.today.year,
                     :end_year => (Date.today.year+10),

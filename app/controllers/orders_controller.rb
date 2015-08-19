@@ -1,3 +1,5 @@
+require 'httparty'
+
 class OrdersController < ApplicationController
     before_action :order_page_access, only: [:index]
     before_action :find_order, only: [:edit, :show, :update]
@@ -70,6 +72,10 @@ class OrdersController < ApplicationController
         @order.status = "Complete"
         @order.save
       end
+  end
+   
+  def shipping_rates
+    binding.pry
   end
 
   def create_params
