@@ -44,8 +44,8 @@ products.each do |product|
   Product.create product
   # product.dimensions       # product length, width, and height. 
   # product.weight           # formatted for easier use with active_shipping.
-  Product.update_all "dimensions= '[2,2,2]', weight='2'" 
 end
+  Product.update_all "dimensions= '[2,2,2]', weight='2'" 
 
 
 users = [
@@ -60,6 +60,7 @@ users = [
 users.each do |user|
   User.create user
 end
+  User.update_all "city='Keuka Park', state='NY', zipcode= 14478"
 
 categories =[
   {name: "Goats In Coats"},
