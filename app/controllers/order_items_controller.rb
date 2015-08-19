@@ -3,11 +3,12 @@ require 'httparty'
 class OrderItemsController < ApplicationController
   before_action :find_order_item, only: [:edit, :quantity_update, :update, :destroy]
 
-  SHIP_EST_UPS = Rails.env.production? ? "later" : "localhost:3000/estimate/ups"
-  SHIP_EST_USPS = Rails.env.production? ? "later" : "localhost:3000/estimate/usps"
+  SHIP_EST_UPS = Rails.env.production? ? "later" : "http://localhost:3001/estimate/ups"
+  SHIP_EST_USPS = Rails.env.production? ? "later" : "http://localhost:3001/estimate/usps"
 
   def index
     @order_items = OrderItem.joins(:order).where('orders.status' => 'pending').where('orders.id' => session[:order_id])
+    @order = Order.find(session[:order_id])
   end
 
   def new
@@ -68,10 +69,19 @@ class OrderItemsController < ApplicationController
     redirect_to cart_path
   end
 
-  def ship_est_ups
-    item_quantity = OrderItem.joins(:order).where('orders.status' => 'pending').where('orders.id' => session[:order_id]).count
+  def ship_est
+    @order_items = OrderItem.joins(:order).where('orders.status' => 'pending').where('orders.id' => session[:order_id])
+    @order = Order.find(session[:order_id])
+    item_quantity = @order_items.count
+    # In our world, each item weighs 10 oz. :)
     weight = item_quantity * 10
-    @ups_estimate = HTTParty.get(SHIP_EST_URI + "/estimate/ups/#{params[:zip]}/#{weight}")
+    if params[:ups]
+      @ups_estimate = HTTParty.get(SHIP_EST_UPS + "/#{params[:zipcode]}/#{weight}")
+    end
+    if params[:usps]
+      @usps_estimate = HTTParty.get(SHIP_EST_USPS + "/#{params[:zipcode]}/#{weight}")
+    end
+    render "index"
   end
 
   def edit

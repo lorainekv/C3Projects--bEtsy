@@ -27,3 +27,25 @@
 <% end  %>
 
 <%= link_to "Continue Shopping", products_path, class: "btn btn-primary" %>
+
+<div class="form-inline">
+  <div class="form-group">
+    <h3>Estimate Shipping</h3>
+    <%= form_tag(ship_est_path, method: :post) do %>
+      <%= label_tag "Enter 5-digit zipcode:" %>
+      <%= text_field_tag :zipcode, value = nil, options = { class: "form-control", placeholder: "zipcode" } %>
+
+      <%= hidden_field_tag :ups, false %>
+      <%= check_box_tag(:ups, value: true, checked: false, class: "checkbox") %>UPS
+
+      <%= hidden_field_tag :usps, false %>
+      <%= check_box_tag(:usps, value: true, checked: false, class: "checkbox") %>US Postal Service
+
+      <%= submit_tag("Estimate Shipping", class: "btn btn-primary") %>
+    <% end %>
+  </div>
+</div>
+
+<% if @ups_estimate || @usps_estimate %>
+<%= render partial: "ship_estimate", locals: { ups_estimate: @ups_estimate, usps_estimate: @usps_estimate } %>
+<% end %>
