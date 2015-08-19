@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
-    before_action :order_page_access, only: [:index]
-    before_action :find_order, only: [:edit, :show, :update]
+  before_action :order_page_access, only: [:index]
+  before_action :find_order, only: [:edit, :show, :update]
 
   def index
     @merchant = session[:user_id]
@@ -15,7 +15,6 @@ class OrdersController < ApplicationController
     render :index
   end
 
-
   def edit
     render :edit
   end
@@ -25,7 +24,11 @@ class OrdersController < ApplicationController
   end
 
   def update
-    @order.update(create_params[:checkout])
+    @order.update(update_params[:checkout])
+    shipment = Shipment.new(create_params[:checkout])
+    shipment.order_id = @order.id
+    shipment.save
+
     if @order.order_items.length > 0
       @order.status = 'paid'
       @order.save
@@ -50,8 +53,12 @@ class OrdersController < ApplicationController
 
   private
 
+  def update_params
+    params.permit(checkout: [:name, :email, :address, :zipcode, :cc4, :expiry_date])
+  end
+
   def create_params
-    params.permit(checkout: [:name, :email, :address, :cc4, :expiry_date])
+    params.permit(checkout: [:address, :address2, :city, :state, :zipcode])
   end
 
 end
