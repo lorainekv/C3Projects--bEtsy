@@ -21,6 +21,8 @@ Rails.application.routes.draw do
 
 
   get    "/cart" => 'order_items#index', as: 'cart'
+  get    "/cart/ship_est" => 'order_items#ship_est', as: 'ship_est'
+
   get    "/cart/:product_id/new" => 'order_items#new', as: 'new_item'
   post   "/cart" => 'order_items#create', as: 'order_items'
   post   "/cart" => 'order_items#create'

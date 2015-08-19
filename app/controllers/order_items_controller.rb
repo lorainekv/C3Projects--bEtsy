@@ -1,5 +1,10 @@
+require 'httparty'
+
 class OrderItemsController < ApplicationController
   before_action :find_order_item, only: [:edit, :quantity_update, :update, :destroy]
+
+  SHIP_EST_UPS = Rails.env.production? ? "later" : "localhost:3000/estimate/ups"
+  SHIP_EST_USPS = Rails.env.production? ? "later" : "localhost:3000/estimate/usps"
 
   def index
     @order_items = OrderItem.joins(:order).where('orders.status' => 'pending').where('orders.id' => session[:order_id])
@@ -50,6 +55,7 @@ class OrderItemsController < ApplicationController
       @item = OrderItem.create(create_params[:order_item])
 
     end
+
     # If we don't have an order_id in the session, create one
     unless session[:order_id]
       new_order
@@ -60,6 +66,12 @@ class OrderItemsController < ApplicationController
     @item.save
 
     redirect_to cart_path
+  end
+
+  def ship_est_ups
+    item_quantity = OrderItem.joins(:order).where('orders.status' => 'pending').where('orders.id' => session[:order_id]).count
+    weight = item_quantity * 10
+    @ups_estimate = HTTParty.get(SHIP_EST_URI + "/estimate/ups/#{params[:zip]}/#{weight}")
   end
 
   def edit
@@ -102,10 +114,34 @@ class OrderItemsController < ApplicationController
   private
 
   def new_order
-    unless session[:order_id]
+    # unless session[:order_id]
       @order = Order.create
       @order.status = "pending"
       session[:order_id] = @order.id
+    # end
+  end
+
+private
+
+  def order_complete
+    @order_item = OrderItem.find(params[:id])
+    order_id = @order_item[:order_id]
+    @order_items = OrderItem.where("order_id = ?", order_id)
+    @order = Order.find(order_id)
+
+    all_items = @order_items.length
+
+    counter = 0
+
+    @order_items.each do |item|
+      if item.shipping == "Yes"
+        counter += 1
+      end
+    end
+
+    if counter == all_items
+      @order.status = "Complete"
+      @order.save
     end
   end
 
