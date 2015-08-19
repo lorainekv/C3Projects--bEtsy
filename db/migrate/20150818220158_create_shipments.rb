@@ -7,9 +7,9 @@ class CreateShipments < ActiveRecord::Migration
       t.string :state, null: false
       t.string :zip, null: false
       t.string :country, null: false, default: "US"
-      t.string :carrier, null: false
-      t.string :delivery, null: false
-      t.decimal :shipping_cost, precision: 7, scale: 2, null: false
+      t.string :carrier
+      t.string :delivery
+      t.decimal :shipping_cost, precision: 7, scale: 2
       t.integer :order_id, null: false, index: true
       t.timestamps null: false
     end
