@@ -6,7 +6,7 @@
   </div>
 <%end%>
 
-<%= form_for :checkout, url:review_path(@order.id), method: :get do |f| %>
+<%= form_for :destination, url:review_path(@order.id), method: :get do |f| %>
 <div class="form-group">
   <%= f.label :name, "Name" %>
   <%= f.text_field :name, required: true, class: "form-control" %>
@@ -41,6 +41,6 @@
                     class: "form-control"  %>
 
 <br>
-  <%= f.submit "Purchase", class: "btn btn-success" %>
+  <%= f.submit "Review Order", class: "btn btn-primary" %>
 </div>
 <% end %>

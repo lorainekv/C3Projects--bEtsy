@@ -91,7 +91,7 @@ class OrdersController < ApplicationController
 
 
   def create_params
-    params.permit(checkout: [:name, :email, :address, :cc4, :expiry_date])
+    params.permit(destination: [:name, :email, :address, :cc4, :expiry_date])
   end
 
 end
