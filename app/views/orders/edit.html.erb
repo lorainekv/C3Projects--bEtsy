@@ -26,7 +26,7 @@
   <%= f.label :zipcode, "Zipcode" %>
   <%= f.text_field :zipcode, required: true,class: "form-control" %>
 
-  <%= f.hidden_field  :id, :value => order_item[:user_id] %>
+  <%# f.hidden_field  :id, :value => order.user.id %>
   <%# f.hidden_field_tag :user_id, value: @order.user.id %>
 
   <%# f.label :cc4, "Credit Card Number" %>
