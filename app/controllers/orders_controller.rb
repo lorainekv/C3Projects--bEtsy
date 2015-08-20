@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :order_page_access, only: [:index]
-  before_action :find_order, only: [:edit, :show, :update, :shipping]
+  before_action :find_order, only: [:edit, :show, :update, :shipping, :update_shipping]
 
   SHIP_URI = Rails.env.production? ? "later" : "http://localhost:3001/ship"
 
@@ -26,11 +26,11 @@ class OrdersController < ApplicationController
   end
 
   def update
-    shipment = Shipment.new(create_params[:checkout])
+    shipment = Shipment.new(create_shipment_params[:checkout])
     shipment.order_id = @order.id
     shipment.save
 
-    @order.update(update_params[:checkout])
+    @order.update(update_order_params[:checkout])
 
     if @order.order_items.length > 0
       @order.status = 'paid'
@@ -38,13 +38,7 @@ class OrdersController < ApplicationController
 
       update_stock
 
-      # Clear the session's order_id so any new items get a new order
-      # session[:order_id] = nil
-      # @time = Time.now.localtime
-
-      # render '/orders/confirmation'
       redirect_to shipping_path(@order)
-
     else
       flash.now[:error] = "Order must have at least one item."
       render :edit
@@ -67,6 +61,39 @@ class OrdersController < ApplicationController
 
     usps_options = all_shipment_options["usps"]["rates"]
     @usps_formatted_options = format_usps_options(usps_options)
+  end
+
+  def update_shipping
+    shipment = @order.shipment
+    shipment.update(eval(update_shipment_params["shipment"]))
+
+    # Clear the session's order_id so any new items get a new order
+    session[:order_id] = nil
+    @time = Time.now.localtime
+
+    render 'confirmation'
+  end
+
+  def find_order
+    @order = Order.find(session[:order_id])
+  end
+
+  private
+
+  def cents_to_dollars(cents)
+    cents / 100.0
+  end
+
+  def update_order_params
+    params.permit(checkout: [:name, :email, :address, :zipcode, :cc4, :expiry_date])
+  end
+
+  def create_shipment_params
+    params.permit(checkout: [:address, :address2, :city, :state, :zipcode])
+  end
+
+  def update_shipment_params
+    params.permit(:shipment)
   end
 
   def format_ups_options(shipment_options)
@@ -96,26 +123,4 @@ class OrdersController < ApplicationController
 
     return formatted_options
   end
-
-  def cents_to_dollars(cents)
-    cents / 100.0
-  end
-
-  def submit_shipping
-  end
-
-  def find_order
-    @order = Order.find(session[:order_id])
-  end
-
-  private
-
-  def update_params
-    params.permit(checkout: [:name, :email, :address, :zipcode, :cc4, :expiry_date])
-  end
-
-  def create_params
-    params.permit(checkout: [:address, :address2, :city, :state, :zipcode])
-  end
-
 end

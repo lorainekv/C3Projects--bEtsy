@@ -1,7 +1,5 @@
 <h1> Thank You For Your Purchase! <h1>
 
-
-
   <% @order.id %>
   <% total = 0 %>
   <% @order.order_items.each do |order_item| %>
@@ -19,3 +17,5 @@
   <p>Order placed on:  <%= pretty_time(@time) %>
   <p>Order Status: <%= @order.status.capitalize %></p>
   <p>Total Purchase: $ <%= total  %>
+  <p>Shipping: $ <%= @order.shipment.shipping_cost %></p>
+  <p>Grand Total: $ <%= @order.shipment.shipping_cost + total %></p>
