@@ -18,4 +18,4 @@
 <p>Order Status: <%= @order.status.capitalize %></p>
 <p>Total Purchase: <%= number_to_currency(total)  %>
 <p>Shipping: <%= number_to_currency(@order.shipment.shipping_cost) %></p>
-<p>Grand Total: <%= number_to_currency(@order.shipment.shipping_cost + total) %></p>
+<p>Grand Total: <%= number_to_currency(@order.total) %></p>

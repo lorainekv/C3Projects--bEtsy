@@ -73,11 +73,13 @@ class OrdersController < ApplicationController
     params[:shipment] = params["shipment"].symbolize_keys
     shipment.update(params[:shipment].symbolize_keys)
 
+    total(@order)
+
     log = HTTParty.post(LOG_URI, :body => {
       "carrier": "#{shipment.carrier}",
       "delivery_service": "#{shipment.delivery}",
       "shipping_cost": "#{shipment.shipping_cost}",
-      "order_total": "99.99",
+      "order_total": "#{@order.total}",
       "order_id": "#{@order.id}"
     }.to_json,
     :headers => {
@@ -112,5 +114,16 @@ class OrdersController < ApplicationController
 
   def update_shipment_params
     params.permit(:carrier, :delivery, :shipping_cost)
+  end
+
+  def total(order)
+    subtotal = 0
+
+    order.order_items.each do |order_item|
+      subtotal += order_item.quantity * order_item.product.price
+    end
+
+    order.total = order.shipment.shipping_cost + subtotal
+    order.save
   end
 end
