@@ -95,6 +95,7 @@ class OrdersController < ApplicationController
 
     response = HTTParty.get(DEV_SHIPPING_BASE_URI, query: { json_data: json_shipment })
     @rates = response
+    session[:shipping_option]
     # raise
   end
 

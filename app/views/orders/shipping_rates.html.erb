@@ -5,9 +5,31 @@
     <%= rate["service_name"] %>:
 
     <% if rate["carrier"] == "FedEx" %>
-      <%= number_to_currency(rate["total_price"] / 100) %>
-    <% elsif rate["carrier"] == "USPS" %>
-      <%= number_to_currency(rate["package_rates"].first["rate"] / 100) %>
+      <%= number_to_currency(rate["total_price"] / 100.0) %>
+    <% else %>
+      <%= number_to_currency(rate["package_rates"].first["rate"] / 100.0) %>
     <% end %>
   </p>
+<% end %>
+
+<h2>Select Shipping Method</h2>
+<%= form_tag root_path, class: "form-inline" do %>
+  <% @rates.each do |rate| %>
+
+    <% rate_service_name = rate["service_name"] %>
+
+    <% if rate["carrier"] == "FedEx" %>
+      <% rate_price = number_to_currency(rate["total_price"] / 100.0) %>
+    <% else %>
+      <% rate_price = number_to_currency(rate["package_rates"].first["rate"] / 100.0) %>
+    <% end %>
+
+    <% rate_label = "#{rate_service_name}: #{rate_price}" %>
+
+    <div class="form-group radio">
+      <%= radio_button_tag rate, rate, class: "radio" %>
+      <%= label_tag rate, rate_label %>
+    </div>
+  <% end %>
+  <%= submit_tag "Place Order" %>
 <% end %>
