@@ -2,7 +2,12 @@
 
 <% @rates.each do |rate| %>
   <p>
-    <%= rate["service_name"] %>,
-    <%= rate["total_price"] %>
+    <%= rate["service_name"] %>:
+
+    <% if rate["carrier"] == "FedEx" %>
+      <%= number_to_currency(rate["total_price"] / 100) %>
+    <% elsif rate["carrier"] == "USPS" %>
+      <%= number_to_currency(rate["package_rates"].first["rate"] / 100) %>
+    <% end %>
   </p>
 <% end %>
