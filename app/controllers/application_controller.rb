@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
 
   MESSAGES = {not_logged_in: "You are not currently logged in!",
               already_logged_in: "Can't access login page because you're already logged in!",
-              already_signed_up: "You're already registered with Petcessories!"
+              already_signed_up: "You're already registered with Petcessories!",
+              log_failed: "Sorry, your order could not be completed. Please call Petcessories at 1-800-LOVE-PET*. (*This is a fake number.)"
   }
 
   def require_login

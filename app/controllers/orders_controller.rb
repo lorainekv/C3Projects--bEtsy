@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
   before_action :find_order, only: [:edit, :show, :update, :shipping, :update_shipping]
 
   SHIP_URI = Rails.env.production? ? "later" : "http://localhost:3001/ship"
+  LOG_URI = Rails.env.production? ? "later" : "http://localhost:3001/log"
 
   def index
     @merchant = session[:user_id]
@@ -28,19 +29,22 @@ class OrdersController < ApplicationController
   def update
     shipment = Shipment.new(create_shipment_params[:checkout])
     shipment.order_id = @order.id
-    shipment.save
+    if shipment.save
+      @order.update(update_order_params[:checkout])
 
-    @order.update(update_order_params[:checkout])
+      if @order.order_items.length > 0
+        @order.status = 'paid'
+        @order.save
 
-    if @order.order_items.length > 0
-      @order.status = 'paid'
-      @order.save
+        update_stock
 
-      update_stock
-
-      redirect_to shipping_path(@order)
+        redirect_to shipping_path(@order)
+      else
+        flash.now[:error] = "Order must have at least one item."
+        render :edit
+      end
     else
-      flash.now[:error] = "Order must have at least one item."
+      flash.now[:error] = shipment.errors.messages.values.flatten[0]
       render :edit
     end
   end
@@ -69,11 +73,27 @@ class OrdersController < ApplicationController
     params[:shipment] = params["shipment"].symbolize_keys
     shipment.update(params[:shipment].symbolize_keys)
 
-    # Clear the session's order_id so any new items get a new order
-    session[:order_id] = nil
-    @time = Time.now.localtime
+    log = HTTParty.post(LOG_URI, :body => {
+      "carrier": "#{shipment.carrier}",
+      "delivery_service": "#{shipment.delivery}",
+      "shipping_cost": "#{shipment.shipping_cost}",
+      "order_total": "99.99",
+      "order_id": "#{@order.id}"
+    }.to_json,
+    :headers => {
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json'
+    } )
 
-    render 'confirmation'
+    if log.response.code == "201"
+      # Clear the session's order_id so any new items get a new order
+      session[:order_id] = nil
+      @time = Time.now.localtime
+
+      render 'confirmation'
+    else
+      redirect_to cart_path(session[:order_id]), flash: { error: MESSAGES[:log_failed] }
+    end
   end
 
   def find_order
