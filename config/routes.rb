@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   post   "/cart" => 'order_items#create'
   patch  "/cart/:id/edit" => 'order_items#edit', as: 'edit_item'
   delete "/cart/:id" => 'order_items#destroy', as: 'delete_item'
+  get "/cart/:id/shipping" => 'orders#shipping', as: 'shipping'
+  post "/cart/:id/shipping" => 'orders#submit_shipping'
 
   post   "/receipt" => 'orders#update'
 

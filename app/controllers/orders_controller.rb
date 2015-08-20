@@ -1,6 +1,8 @@
 class OrdersController < ApplicationController
   before_action :order_page_access, only: [:index]
-  before_action :find_order, only: [:edit, :show, :update]
+  before_action :find_order, only: [:edit, :show, :update, :shipping]
+
+  SHIP_URI = Rails.env.production? ? "later" : "http://localhost:3001/ship"
 
   def index
     @merchant = session[:user_id]
@@ -24,10 +26,11 @@ class OrdersController < ApplicationController
   end
 
   def update
-    @order.update(update_params[:checkout])
     shipment = Shipment.new(create_params[:checkout])
     shipment.order_id = @order.id
     shipment.save
+
+    @order.update(update_params[:checkout])
 
     if @order.order_items.length > 0
       @order.status = 'paid'
@@ -36,15 +39,36 @@ class OrdersController < ApplicationController
       update_stock
 
       # Clear the session's order_id so any new items get a new order
-      session[:order_id] = nil
-      @time = Time.now.localtime
+      # session[:order_id] = nil
+      # @time = Time.now.localtime
 
-      render '/orders/confirmation'
+      # render '/orders/confirmation'
+      redirect_to shipping_path(@order)
 
     else
       flash.now[:error] = "Order must have at least one item."
       render :edit
     end
+  end
+
+  def shipping
+    # get all shipping options by quering our api
+    shipment = @order.shipment
+    @shipment_options = HTTParty.post(SHIP_URI,
+                        :body => { "address1": "#{@order.address}",
+                                       "city":    "#{shipment.city}",
+                                       "state":   "#{shipment.state}",
+                                       "zip":     "#{shipment.zipcode}",
+                                       "country": "#{shipment.country}" }.to_json,
+                        :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} )
+
+    @ups_options = @shipment_options["ups"]["rates"]
+    @usps_options = @shipment_options["usps"]["rates"]
+
+  end
+
+  def submit_shipping
+    raise
   end
 
   def find_order

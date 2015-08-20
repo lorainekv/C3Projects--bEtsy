@@ -1,0 +1,33 @@
+<h1>Choose your shipping method</h1>
+
+DISPLAY ALL SHIPPING OPTIONS AS RADIO BUTTONS IN FORM
+
+<ul>
+  <% @ups_options.each do |delivery_method| %>
+    <li>
+      <%= delivery_method["service_name"] %>
+      <%= delivery_method["total_price"] %>
+    </li>
+  <% end %>
+</ul>
+
+<ul>
+  <% @usps_options.each do |delivery_method| %>
+    <li>
+      <%= delivery_method["service_name"] %>
+      <%= delivery_method["package_rates"].last["rate"] %>
+    </li>
+  <% end %>
+</ul>
+
+<%= form_tag(shipping_path(params[:id]), method: :post) do %>
+
+  <%= radio_button_tag(:delivery, "UPS Ground $15.00") %>
+  <%= label_tag(:ground, "UPS Ground $15.00") %>
+
+  <%= radio_button_tag(:delivery, "USPS Expedited $60.00") %>
+  <%= label_tag(:expedited, "USPS Expedited $60.00") %>
+
+  <%= submit_tag("Complete Order", class: "btn btn-primary") %>
+
+<% end %>
