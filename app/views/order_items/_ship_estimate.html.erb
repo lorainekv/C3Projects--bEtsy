@@ -10,8 +10,8 @@
 
       <% ups_estimate.each do |est| %>
       <tr>
-        <td><%= est[0] %></td>
-        <td><%= number_to_currency(est[1] / 100) %></td>
+        <td><%= est["service"] %></td>
+        <td><%= number_to_currency(est["price_in_cents"] / 100) %></td>
       </tr>
       <% end %>
 
@@ -28,8 +28,8 @@
 
       <% usps_estimate.each do |est| %>
       <tr>
-        <td><%= est[0] %></td>
-        <td><%= number_to_currency(est[1] / 100) %></td>
+        <td><%= est["service"] %></td>
+        <td><%= number_to_currency(est["price_in_cents"] / 100) %></td>
       </tr>
       <% end %>
 
