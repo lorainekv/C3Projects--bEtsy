@@ -4,6 +4,9 @@ class OrdersController < ApplicationController
     before_action :order_page_access, only: [:index]
     before_action :find_order, only: [:edit, :show, :update]
 
+    # dev shipping api uri
+    DEV_SHIPPING_BASE_URI = "http://localhost:3001/shipments/"
+
   def index
     @merchant = session[:user_id]
     @orders = Order.includes(:order_items).where(order_items: { user_id: @merchant } )
@@ -49,6 +52,7 @@ class OrdersController < ApplicationController
   def find_order
     @order = Order.find(session[:order_id])
   end
+
   def review
     raise
 
@@ -61,7 +65,65 @@ class OrdersController < ApplicationController
     # end
   end
 
+  def shipping_rates
+    shipment = {
+      shipment: {
+        origin: {
+          country: "US",
+          city: "Seattle",
+          state: "WA",
+          zipcode: "98106"
+        },
+        destination: {
+          country: "US",
+          city: "Minneapolis",
+          state: "MN",
+          zipcode: "55414"
+        },
+        packages: {
+          weight: "2",
+          dimensions: "[2, 2, 2]"
+        }
+      }
+    }
+    # shipment = { "shipment" => {
+    #   [{"origin" => {
+    #     "country" => "US", "city" => "Seattle", "state" => "WA", "zipcode" => "98104"
+    #       },
+    #   "destination" => {
+    #       "country" => "US", "city" => "Minneapolis", "state" => "MN", "zipcode" => "55414"
+    #       },
+    #   "packages" => [
+    #       {
+    #         "weight" => "2", "dimensions" => "[2, 2, 2]"
+    #       }
+    #     ]}
+    #   ]}}
+
+    json_shipment = shipment.to_json
+
+    response = HTTParty.get(DEV_SHIPPING_BASE_URI, query: { json_data: json_shipment })
+    @rates = response
+    # raise
+  end
+
   private
+
+  def create_location(order)
+    location = {}
+    location["state"] = order.state
+    location["city"] = order.city
+    location["zipcode"] = order.zip
+    return location
+  end
+
+  def create_package(item)
+    package = {}
+    product = item.product
+    package["weight"] = product.weight
+    package["dimensions"] = product.dimensions
+    return package
+  end
 
   def order_complete
     @order_item = OrderItem.find(params[:id])
@@ -84,11 +146,6 @@ class OrdersController < ApplicationController
         @order.save
       end
   end
-  
-
-  # def shipping_rates
-  # end
-
 
   def create_params
     params.permit(checkout: [:name, :email, :address, :cc4, :expiry_date])

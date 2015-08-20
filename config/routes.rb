@@ -39,8 +39,9 @@ Rails.application.routes.draw do
   get "/dashboard/:id/orders/:order_id" => 'orders#show', as: 'dashboard_order_show'
   patch "/cart" => 'order_items#quantity_update', as: 'quantity_update'
 
+  get '/shipping_rates' => "orders#shipping_rates"
   get '/shipping/:order_id/review' => "orders#review", as: 'review'
-  get '/shipping/:order_id' =>  'orders#shipping_rates', as:'shipping_rates'
+  # get '/shipping/:order_id' =>  'orders#shipping_rates', as:'shipping_rates'
 
 
 
