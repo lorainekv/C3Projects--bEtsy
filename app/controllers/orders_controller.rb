@@ -56,16 +56,18 @@ class OrdersController < ApplicationController
                                        "country": "#{shipment.country}" }.to_json,
                         :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} )
 
-    ups_options = all_shipment_options["ups"]["rates"]
-    @ups_formatted_options = format_ups_options(ups_options)
-
-    usps_options = all_shipment_options["usps"]["rates"]
-    @usps_formatted_options = format_usps_options(usps_options)
+    @ups_options = all_shipment_options["ups"]
+    @usps_options = all_shipment_options["usps"]
   end
 
   def update_shipping
     shipment = @order.shipment
-    shipment.update(eval(update_shipment_params["shipment"]))
+
+    params["shipment"] = eval(params["shipment"])
+    params["shipment"].delete("delivery_date")
+
+    params[:shipment] = params["shipment"].symbolize_keys
+    shipment.update(params[:shipment].symbolize_keys)
 
     # Clear the session's order_id so any new items get a new order
     session[:order_id] = nil
@@ -80,10 +82,6 @@ class OrdersController < ApplicationController
 
   private
 
-  def cents_to_dollars(cents)
-    cents / 100.0
-  end
-
   def update_order_params
     params.permit(checkout: [:name, :email, :address, :zipcode, :cc4, :expiry_date])
   end
@@ -93,34 +91,6 @@ class OrdersController < ApplicationController
   end
 
   def update_shipment_params
-    params.permit(:shipment)
-  end
-
-  def format_ups_options(shipment_options)
-    formatted_options = []
-
-    shipment_options.each do |option|
-      params_hash = {}
-      params_hash[:carrier] = "ups"
-      params_hash[:delivery] = option["service_name"]
-      params_hash[:shipping_cost] = cents_to_dollars(option["total_price"])
-      formatted_options.push(params_hash)
-    end
-
-    return formatted_options
-  end
-
-  def format_usps_options(shipment_options)
-    formatted_options = []
-
-    shipment_options.each do |option|
-      params_hash = {}
-      params_hash[:carrier] = "usps"
-      params_hash[:delivery] = option["service_name"]
-      params_hash[:shipping_cost] = cents_to_dollars(option["package_rates"].last["rate"])
-      formatted_options.push(params_hash)
-    end
-
-    return formatted_options
+    params.permit(:carrier, :delivery, :shipping_cost)
   end
 end
