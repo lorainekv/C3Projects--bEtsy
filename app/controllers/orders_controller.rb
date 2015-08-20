@@ -54,7 +54,7 @@ class OrdersController < ApplicationController
   def shipping
     # get all shipping options by quering our api
     shipment = @order.shipment
-    @shipment_options = HTTParty.post(SHIP_URI,
+    all_shipment_options = HTTParty.post(SHIP_URI,
                         :body => { "address1": "#{@order.address}",
                                        "city":    "#{shipment.city}",
                                        "state":   "#{shipment.state}",
@@ -62,13 +62,46 @@ class OrdersController < ApplicationController
                                        "country": "#{shipment.country}" }.to_json,
                         :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} )
 
-    @ups_options = @shipment_options["ups"]["rates"]
-    @usps_options = @shipment_options["usps"]["rates"]
+    ups_options = all_shipment_options["ups"]["rates"]
+    @ups_formatted_options = format_ups_options(ups_options)
 
+    usps_options = all_shipment_options["usps"]["rates"]
+    @usps_formatted_options = format_usps_options(usps_options)
+  end
+
+  def format_ups_options(shipment_options)
+    formatted_options = []
+
+    shipment_options.each do |option|
+      params_hash = {}
+      params_hash[:carrier] = "ups"
+      params_hash[:delivery] = option["service_name"]
+      params_hash[:shipping_cost] = cents_to_dollars(option["total_price"])
+      formatted_options.push(params_hash)
+    end
+
+    return formatted_options
+  end
+
+  def format_usps_options(shipment_options)
+    formatted_options = []
+
+    shipment_options.each do |option|
+      params_hash = {}
+      params_hash[:carrier] = "usps"
+      params_hash[:delivery] = option["service_name"]
+      params_hash[:shipping_cost] = cents_to_dollars(option["package_rates"].last["rate"])
+      formatted_options.push(params_hash)
+    end
+
+    return formatted_options
+  end
+
+  def cents_to_dollars(cents)
+    cents / 100.0
   end
 
   def submit_shipping
-    raise
   end
 
   def find_order

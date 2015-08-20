@@ -2,31 +2,22 @@
 
 DISPLAY ALL SHIPPING OPTIONS AS RADIO BUTTONS IN FORM
 
-<ul>
-  <% @ups_options.each do |delivery_method| %>
-    <li>
-      <%= delivery_method["service_name"] %>
-      <%= delivery_method["total_price"] %>
-    </li>
-  <% end %>
-</ul>
-
-<ul>
-  <% @usps_options.each do |delivery_method| %>
-    <li>
-      <%= delivery_method["service_name"] %>
-      <%= delivery_method["package_rates"].last["rate"] %>
-    </li>
-  <% end %>
-</ul>
-
 <%= form_tag(shipping_path(params[:id]), method: :post) do %>
+  <h4>UPS</h4>
+  <% @ups_formatted_options.each do |delivery_method| %>
+    <div class="radio">
+      <%= radio_button_tag(:shipment, delivery_method) %>
+      <%= label_tag(:delivery_type, "#{delivery_method[:delivery]} #{number_to_currency(delivery_method[:shipping_cost])}") %>
+    </div>
+  <% end %>
 
-  <%= radio_button_tag(:delivery, "UPS Ground $15.00") %>
-  <%= label_tag(:ground, "UPS Ground $15.00") %>
-
-  <%= radio_button_tag(:delivery, "USPS Expedited $60.00") %>
-  <%= label_tag(:expedited, "USPS Expedited $60.00") %>
+  <h4>USPS</h4>
+  <% @usps_formatted_options.each do |delivery_method| %>
+    <div class="radio">
+      <%= radio_button_tag(:shipment, delivery_method) %>
+      <%= label_tag(:delivery_type, "#{delivery_method[:delivery]} #{number_to_currency(delivery_method[:shipping_cost])}") %>
+    </div>
+  <% end %>
 
   <%= submit_tag("Complete Order", class: "btn btn-primary") %>
 
