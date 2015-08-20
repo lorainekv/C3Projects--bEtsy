@@ -1,0 +1,26 @@
+<h1>Choose your shipping method</h1>
+
+DISPLAY ALL SHIPPING OPTIONS AS RADIO BUTTONS IN FORM
+
+<%= form_tag(shipping_path(params[:id]), method: :post) do %>
+  <h4>UPS</h4>
+  <% @ups_options.each do |delivery_method| %>
+    <div class="radio">
+      <%= radio_button_tag(:shipment, delivery_method) %>
+      <%= label_tag(:delivery_type, "#{delivery_method["delivery"]} - " + " #{number_to_currency(delivery_method["shipping_cost"]) }") %>
+      <p>Estimated delivery date:  <%= delivery_method["delivery_date"] %></p>
+    </div>
+  <% end %>
+
+  <h4>USPS</h4>
+  <% @usps_options.each do |delivery_method| %>
+    <div class="radio">
+      <%= radio_button_tag(:shipment, delivery_method) %>
+      <%= label_tag(:delivery_type, "#{delivery_method["delivery"]}" + " #{number_to_currency(delivery_method["shipping_cost"]) }") %>
+      <p>Estimated delivery date:  <%= delivery_method["delivery_date"] %></p>
+    </div>
+  <% end %>
+
+  <%= submit_tag("Complete Order", class: "btn btn-primary") %>
+
+<% end %>

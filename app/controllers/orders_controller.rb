@@ -1,6 +1,8 @@
 class OrdersController < ApplicationController
   before_action :order_page_access, only: [:index]
-  before_action :find_order, only: [:edit, :show, :update]
+  before_action :find_order, only: [:edit, :show, :update, :shipping, :update_shipping]
+
+  SHIP_URI = Rails.env.production? ? "later" : "http://localhost:3001/ship"
 
   def index
     @merchant = session[:user_id]
@@ -24,10 +26,11 @@ class OrdersController < ApplicationController
   end
 
   def update
-    @order.update(update_params[:checkout])
-    shipment = Shipment.new(create_params[:checkout])
+    shipment = Shipment.new(create_shipment_params[:checkout])
     shipment.order_id = @order.id
     shipment.save
+
+    @order.update(update_order_params[:checkout])
 
     if @order.order_items.length > 0
       @order.status = 'paid'
@@ -35,16 +38,42 @@ class OrdersController < ApplicationController
 
       update_stock
 
-      # Clear the session's order_id so any new items get a new order
-      session[:order_id] = nil
-      @time = Time.now.localtime
-
-      render '/orders/confirmation'
-
+      redirect_to shipping_path(@order)
     else
       flash.now[:error] = "Order must have at least one item."
       render :edit
     end
+  end
+
+  def shipping
+    # get all shipping options by quering our api
+    shipment = @order.shipment
+    all_shipment_options = HTTParty.post(SHIP_URI,
+                        :body => { "address1": "#{@order.address}",
+                                       "city":    "#{shipment.city}",
+                                       "state":   "#{shipment.state}",
+                                       "zip":     "#{shipment.zipcode}",
+                                       "country": "#{shipment.country}" }.to_json,
+                        :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} )
+
+    @ups_options = all_shipment_options["ups"]
+    @usps_options = all_shipment_options["usps"]
+  end
+
+  def update_shipping
+    shipment = @order.shipment
+
+    params["shipment"] = eval(params["shipment"])
+    params["shipment"].delete("delivery_date")
+
+    params[:shipment] = params["shipment"].symbolize_keys
+    shipment.update(params[:shipment].symbolize_keys)
+
+    # Clear the session's order_id so any new items get a new order
+    session[:order_id] = nil
+    @time = Time.now.localtime
+
+    render 'confirmation'
   end
 
   def find_order
@@ -53,12 +82,15 @@ class OrdersController < ApplicationController
 
   private
 
-  def update_params
+  def update_order_params
     params.permit(checkout: [:name, :email, :address, :zipcode, :cc4, :expiry_date])
   end
 
-  def create_params
+  def create_shipment_params
     params.permit(checkout: [:address, :address2, :city, :state, :zipcode])
   end
 
+  def update_shipment_params
+    params.permit(:carrier, :delivery, :shipping_cost)
+  end
 end
