@@ -1,22 +1,9 @@
-<h1>Shipping Rates</h1>
-
-<% @rates.each do |rate| %>
-  <p>
-    <%= rate["service_name"] %>:
-
-    <% if rate["carrier"] == "FedEx" %>
-      <%= number_to_currency(rate["total_price"] / 100.0) %>
-    <% else %>
-      <%= number_to_currency(rate["package_rates"].first["rate"] / 100.0) %>
-    <% end %>
-  </p>
-<% end %>
-
 <h2>Select Shipping Method</h2>
 <%= form_tag url: "DEV_SHIPPING_BASE_URI", class: "form-inline" do %>
   <% @rates.each do |rate| %>
 
     <% rate_service_name = rate["service_name"] %>
+    <% rate_collection = "rate" %>
 
     <% if rate["carrier"] == "FedEx" %>
       <% rate_price = number_to_currency(rate["total_price"] / 100.0) %>
@@ -27,8 +14,8 @@
     <% rate_label = "#{rate_service_name}: #{rate_price}" %>
 
     <div class="form-group radio">
-      <%= radio_button_tag rate, rate, false, class: "radio" %>
-      <%= label_tag rate, rate_label %>
+      <%= radio_button_tag rate_collection, rate_service_name, false, class: "radio" %>
+      <%= label_tag rate_service_name, rate_label %>
     </div>
   <% end %>
   <%= submit_tag "Place Order", class: "btn btn-primary" %>
