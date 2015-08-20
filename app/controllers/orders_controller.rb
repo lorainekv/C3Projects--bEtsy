@@ -72,17 +72,17 @@ class OrdersController < ApplicationController
           country: "US",
           city: "Seattle",
           state: "WA",
-          zipcode: "98106"
+          postal_code: "98106"
         },
         destination: {
           country: "US",
           city: "Minneapolis",
           state: "MN",
-          zipcode: "55414"
+          postal_code: "55414"
         },
         packages: {
-          weight: "2",
-          dimensions: "[2, 2, 2]"
+          weight: 2,
+          dimensions: [2, 2, 2]
         }
       }
     }
@@ -104,7 +104,7 @@ class OrdersController < ApplicationController
 
     response = HTTParty.get(DEV_SHIPPING_BASE_URI, query: { json_data: json_shipment })
     @rates = response
-    # raise
+    raise
   end
 
   private
