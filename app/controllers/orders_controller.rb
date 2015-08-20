@@ -86,19 +86,6 @@ class OrdersController < ApplicationController
         }
       }
     }
-    # shipment = { "shipment" => {
-    #   [{"origin" => {
-    #     "country" => "US", "city" => "Seattle", "state" => "WA", "zipcode" => "98104"
-    #       },
-    #   "destination" => {
-    #       "country" => "US", "city" => "Minneapolis", "state" => "MN", "zipcode" => "55414"
-    #       },
-    #   "packages" => [
-    #       {
-    #         "weight" => "2", "dimensions" => "[2, 2, 2]"
-    #       }
-    #     ]}
-    #   ]}}
 
     json_shipment = shipment.to_json
 
@@ -108,22 +95,6 @@ class OrdersController < ApplicationController
   end
 
   private
-
-  def create_location(order)
-    location = {}
-    location["state"] = order.state
-    location["city"] = order.city
-    location["zipcode"] = order.zip
-    return location
-  end
-
-  def create_package(item)
-    package = {}
-    product = item.product
-    package["weight"] = product.weight
-    package["dimensions"] = product.dimensions
-    return package
-  end
 
   def order_complete
     @order_item = OrderItem.find(params[:id])
