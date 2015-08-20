@@ -1,3 +1,8 @@
 <h1>Shipping Rates</h1>
 
-<%= @rates %>
+<% @rates.each do |rate| %>
+  <p>
+    <%= rate["service_name"] %>,
+    <%= rate["total_price"] %>
+  </p>
+<% end %>

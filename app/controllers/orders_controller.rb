@@ -69,16 +69,20 @@ class OrdersController < ApplicationController
     shipment = {
       shipment: {
         origin: {
+          name: "Petsy Inc",
+          address1: "3320 James Rd",
+          country: "US",
+          city: "Keuka Park",
+          state: "NY",
+          postal_code: "14478"
+        },
+        destination: {
+          name: "Ms. Customer",
+          address1: "4040 26th Ave SW",
           country: "US",
           city: "Seattle",
           state: "WA",
           postal_code: "98106"
-        },
-        destination: {
-          country: "US",
-          city: "Minneapolis",
-          state: "MN",
-          postal_code: "55414"
         },
         packages: {
           weight: 2,
