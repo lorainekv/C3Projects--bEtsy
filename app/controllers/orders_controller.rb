@@ -55,9 +55,9 @@ class OrdersController < ApplicationController
     all_shipment_options = HTTParty.post(SHIP_URI,
                         :body => { "address1" => "#{@order.address}",
                                        "city" =>   "#{shipment.city}",
-                                       "state" =>   "#{shipment.state}",
-                                       "zip" => "#{shipment.zipcode}",
-                                       "country" => "#{shipment.country}" }.to_json,
+                                      "state" =>   "#{shipment.state}",
+                                        "zip" => "#{shipment.zipcode}",
+                                    "country" => "#{shipment.country}" }.to_json,
                         :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} )
 
     @ups_options = all_shipment_options["ups"]
@@ -75,17 +75,17 @@ class OrdersController < ApplicationController
 
     total(@order)
 
-    # log = HTTParty.post(LOG_URI, :body => {
-    #   "carrier": "#{shipment.carrier}",
-    #   "delivery_service": "#{shipment.delivery}",
-    #   "shipping_cost": "#{shipment.shipping_cost}",
-    #   "order_total": "#{@order.total}",
-    #   "order_id": "#{@order.id}"
-    # }.to_json,
-    # :headers => {
-    #   'Content-Type' => 'application/json',
-    #   'Accept' => 'application/json'
-    # } )
+    log = HTTParty.post(LOG_URI, :body => {
+      "carrier"          => "#{shipment.carrier}",
+      "delivery_service" => "#{shipment.delivery}",
+      "shipping_cost"    => "#{shipment.shipping_cost}",
+      "order_total"      => "#{@order.total}",
+      "order_id"         => "#{@order.id}"
+    }.to_json,
+    :headers => {
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json'
+    } )
 
     if log.response.code == "201"
       # Clear the session's order_id so any new items get a new order
