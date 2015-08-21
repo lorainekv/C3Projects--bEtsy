@@ -6,7 +6,7 @@
   </div>
 <%end%>
 
-<%= form_for :destination, url: "/receipt"  do |f| %>
+<%= form_for :destination, url: "/shipping_rates"  do |f| %>
 <div class="form-group">
   <%= f.label :name, "Name" %>
   <%= f.text_field :name, required: true, class: "form-control" %>
@@ -26,8 +26,7 @@
   <%= f.label :zipcode, "Zipcode" %>
   <%= f.text_field :zipcode, required: true,class: "form-control" %>
 
-  <%# f.hidden_field  :id, :value => order.user.id %>
-  <%# f.hidden_field_tag :user_id, value: @order.user.id %>
+  <%= f.hidden_field :order_id, value: @order.id %>
 
   <%# f.label :cc4, "Credit Card Number" %>
   <%#f.password_field :cc4, required: true,class: "form-control"  %>

@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   patch "/cart" => 'order_items#quantity_update', as: 'quantity_update'
 
   get '/shipping_rates' => "orders#shipping_rates"
+  post '/shipping_rates' => "orders#shipping_rates"
   get '/shipping/:order_id/review' => "orders#review", as: 'review'
 
   # Example of regular route:

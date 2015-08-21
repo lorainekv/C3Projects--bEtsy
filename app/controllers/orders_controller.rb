@@ -47,7 +47,7 @@ class OrdersController < ApplicationController
       session[:order_id] = nil
       @time = Time.now.localtime
 
-      return '/orders/confirmation'
+      return render '/orders/confirmation'
     elsif @order.order_items.length <= 9 && !0
       dimensions = [2,2,2]
       weight  = 3
@@ -60,7 +60,7 @@ class OrdersController < ApplicationController
       session[:order_id] = nil
       @time = Time.now.localtime
 
-      return  '/orders/confirmation'
+      return render '/orders/confirmation'
     elsif @order.order_items.length == 0
       flash.now[:error] = "Order must have at least one item."
       render :edit
@@ -72,26 +72,41 @@ class OrdersController < ApplicationController
   end
 
   def review
-    shipment = {}
-    origin = []
-    destination = []
-    packages = []
 
-     o = @order.order_items.first
-     z = User.find(o.user_id)
-
-      origin << z.city
-
-      origin << z.state
-
-      origin << z.zipcode
   end
 
   def shipping_rates
+    # shipment = {
+    #   shipment: {
+    #     origin: {
+    #       name: "Petsy Inc",
+    #       address1: "3320 James Rd",
+    #       country: "US",
+    #       city: "Keuka Park",
+    #       state: "NY",
+    #       postal_code: "14478"
+    #     },
+    #     destination: {
+    #       name: "Ms. Customer",
+    #       address1: "4040 26th Ave SW",
+    #       country: "US",
+    #       city: "Seattle",
+    #       state: "WA",
+    #       postal_code: "98106"
+    #     },
+    #     packages: {
+    #       weight: 4,
+    #       dimensions: [12, 12, 12]
+    #     }
+    #   }
+    # }
+
+    num_items = Order.find(params[:destination][:order_id]).order_items.count
+
+
     shipment = {
       shipment: {
         origin: {
-          name: "Petsy Inc",
           address1: "3320 James Rd",
           country: "US",
           city: "Keuka Park",
@@ -99,25 +114,38 @@ class OrdersController < ApplicationController
           postal_code: "14478"
         },
         destination: {
-          name: "Ms. Customer",
-          address1: "4040 26th Ave SW",
+          address1: params[:destination][:address],
           country: "US",
-          city: "Seattle",
-          state: "WA",
-          postal_code: "98106"
+          city: params[:destination][:city],
+          state: params[:destination][:state],
+          postal_code: params[:destination][:zipcode]
         },
         packages: {
-          weight: 4,
-          dimensions: [12, 12, 12]
+          weight: 5,
+          dimensions: [24, 24, 24]
         }
       }
     }
 
-    json_shipment = shipment.to_json
+    # shipment = {}
+    # origin = []
+    # destination = []
+    # packages = []
 
-    response = HTTParty.get(DEV_SHIPPING_BASE_URI, query: { json_data: json_shipment })
-    @rates = response
-    session[:shipping_option]
+    #  o = @order.order_items.first
+    #  z = User.find(o.user_id)
+
+      # origin << z.city
+      #
+      # origin << z.state
+      #
+      # origin << z.zipcode
+
+      # pass shipment object to API
+      json_shipment = shipment.to_json
+
+      response = HTTParty.get(DEV_SHIPPING_BASE_URI, query: { json_data: json_shipment })
+      @rates = response
     # raise
   end
 
