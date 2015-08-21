@@ -13,7 +13,6 @@ class OrderItemsController < ApplicationController
       @order = Order.find(session[:order_id])
       @order_items = OrderItem.joins(:order).where('orders.status' => 'pending').where('orders.id' => session[:order_id])
     end
-
   end
 
   def new
@@ -159,5 +158,4 @@ class OrderItemsController < ApplicationController
   def create_params
     params.permit(order_item: [:quantity, :order_id, :product_id, :user_id, :shipping])
   end
-
 end
