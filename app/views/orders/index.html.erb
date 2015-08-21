@@ -1,0 +1,70 @@
+<h1> Your Order Fulfillment Page</h1>
+
+<% total_revenue = 0 %>
+
+
+<div class="btn-group">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  Filter Orders by Status <span class="caret"></span>
+  </button>
+    <ul class="dropdown-menu">
+      <li><%= link_to "Paid Status", dashboard_orders_path(status: "paid") %></li>
+      <li><%= link_to "Complete Status", dashboard_orders_path(status: "complete") %></li>
+      <li><%= link_to "All Orders", dashboard_orders_path %></li>
+    </ul>
+  </div>
+
+
+
+<% @orders.each do |order|  %>
+<div class="row">
+  <div class="col-md-10">
+  <h3>Order #<%= link_to order.id, dashboard_order_show_path(:order_id => order.id) %></h3>
+  <h4>Status: <%= order.status.capitalize %></h4>
+  <h4>Order Placed: <%= pretty_time(order.created_at) %></h4>
+
+  <table class="table">
+    <tr>
+      <th>Product Name</th>
+      <th>Price</th>
+      <th></th>
+      <th>Quantity</th>
+      <th>Subtotal</th>
+      <th>Shipped?</th>
+      <th>Mark as Shipped</th>
+    </tr>
+
+    <% order.order_items.each do |order_item| %>
+    <tr>
+      <% total_revenue += subtotal(order_item.quantity, order_item.product.price)  %>
+      <td><%=link_to order_item.product.name, product_path(order_item.product.id) %></td>
+      <td>$ <%= order_item.product.price %></td>
+      <td>x</td>
+      <td><%= order_item.quantity %></td>
+      <td><%= subtotal(order_item.product.price, order_item.quantity) %></td>
+
+      <% if order_item.shipping %>
+        <td>Yes</td>
+      <% else %>
+        <td>No</td>
+      <% end %>
+      <td><%= link_to "Ship Item",  order_item_path(order_item), method: :patch, class: "btn btn-default"  %></td>
+    </tr>
+    <% end %>
+
+
+     </table>
+
+    <% order_total = 0 %>
+      <h4>Order Total $<% order.order_items.each do |order_item| %>
+        <% order_total += subtotal(order_item.product.price, order_item.quantity) %>
+        <% end %>
+        <%= order_total %></h4>
+        </div>
+        </div>
+        <hr>
+    <% end %>
+
+
+<h3 class="total">Total Orders: <%= @orders.count %></h3>
+<h3 class="total">Total Revenue: $ <%= total_revenue %></h3>

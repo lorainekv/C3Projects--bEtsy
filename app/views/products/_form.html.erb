@@ -1,0 +1,34 @@
+
+<%= form_for @product, class: "form" do  |f| %>
+<div class="form-group">
+  <%= f.label :name, "Name" %>
+  <%= f.text_field :name, class: "form-control"  %>
+
+  <%= f.label :description, "Description" %>
+  <%= f.text_area :description, class: "form-control" %>
+
+  <%= f.label :price, "Price" %>
+  <%= f.text_field :price, class: "form-control" %>
+
+  <%= f.label :stock, "Stock" %>
+  <%= f.text_field :stock, class: "form-control" %>
+
+  <%= f.label :photo_url, "Add Photo" %>
+  <%= f.text_field :photo_url, class: "form-control" %>
+
+  <%= f.label "Status" %>
+  <%= f.select :status, ([["active", "active"], ["retired", "retired"]]), class: "form-control"%>
+
+
+  <%= f.label :categories %><br>
+  <%= collection_check_boxes(:product, :category_ids, Category.all, :id, :name) do |b| %>
+       <%= b.label class: "checkbox-inline" do %>
+         <%= b.check_box + b.text.capitalize %>
+       <% end %>
+     <% end %>
+</div>
+
+
+  <%= f.submit "Submit", class: "btn btn-default"%>
+<% end %>
+

@@ -1,0 +1,24 @@
+<h2>Select Shipping Method</h2>
+<%= form_tag "/receipt", class: "form-inline" do %>
+  <% @rates.each do |rate| %>
+
+    <% rate_service_name = rate["service_name"] %>
+    <% rate_collection = "rate" %>
+
+    <% if rate["carrier"] == "FedEx" %>
+      <% rate_price = (rate["total_price"] / 100.0) %>
+    <% else %>
+      <% rate_price = ((rate["package_rates"].first["rate"] * rate["package_rates"].first["package"]["weight"]["amount"])/ 100.0) %>
+    <% end %>
+
+    <% rate_label = "#{rate_service_name}: $#{rate_price}" %>
+
+    <div class="form-group radio">
+      <%= radio_button_tag rate_collection, rate_price, false, class: "radio" %>
+      <%= label_tag rate_service_name, rate_label %>
+    </div>
+    <br>
+  <% end %>
+  <%= hidden_field_tag "order_id", params[:destination][:order_id]%>
+  <%= submit_tag "Place Order", class: "btn btn-primary" %>
+<% end %>

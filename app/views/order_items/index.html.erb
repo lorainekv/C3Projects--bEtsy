@@ -1,0 +1,29 @@
+
+<h1>Your Cart</h1>
+
+
+<% @order_items.each do |item| %>
+  <p>Product: <%= item.product.name %></p>
+
+  <%= form_for item, url: quantity_update_path, method: :patch do |f| %>
+    <%= f.label :quantity %>
+    <%= f.number_field :quantity, min: 0, max:"#{@stock}" %>
+
+    <%= f.hidden_field  :id, :value => item[:id] %>
+
+    <%= f.submit "Update Quantity" %>
+
+    <% end %>
+
+
+  <p><%= link_to "Remove from Cart", delete_item_path(item), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure you want to delete this?"} %></p>
+<% end %>
+
+<br>
+<% if session[:order_id] && @order_items.length > 0 %>
+  <%= link_to "Checkout Now", edit_order_path(session[:order_id]), class: "btn btn-primary" %>
+<% else %>
+  <%= "Add stuff to your cart first!" %>
+<% end  %>
+
+<%= link_to "Continue Shopping", products_path, class: "btn btn-primary" %>

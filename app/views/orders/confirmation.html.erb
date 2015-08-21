@@ -1,0 +1,22 @@
+<h1> Thank You For Your Purchase! <h1>
+
+
+
+  <% @order.id %>
+  <% total = 0 %>
+  <% @order.order_items.each do |order_item| %>
+    <% total+=order_item.quantity * order_item.product.price  %>
+    <h3>Your order of <%=link_to order_item.product.name, product_path(order_item.product.id) %> will ship soon. </h3>
+
+  <br>
+ <iframe src="//giphy.com/embed/cPxRDvlSj9QKA?html5=true" width="480" height="241" frameBorder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+    <h2>Order Details</h2>
+    <p>Product Price: $ <%= order_item.product.price %>
+    <p>Quantity Ordered: <%= order_item.quantity %></p>
+  <% end %>
+
+  <p>Order placed on:  <%= pretty_time(@time) %>
+  <p>Order Status: <%= @order.status.capitalize %></p>
+  <p>Shipping Costs: $ <%= params[:rate].to_f %></p>
+  <p>Total Purchase: $ <%= total + params[:rate].to_f  %>

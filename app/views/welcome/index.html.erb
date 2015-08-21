@@ -1,0 +1,11 @@
+<div class="row">
+  <% @products.each do |product| %>
+    <div class="col-md-3">
+       <div class="thumbnail">
+        <p><%= link_to product.name, product_path(product) %></p>
+        <p><%= image_tag(product.photo_url, class: "img-rounded") %></p>
+         <p><%= link_to "View Product", product_path(product), class: "btn btn-primary" %></p>
+     </div>
+   </div>
+  <% end %>
+</div>
