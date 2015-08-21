@@ -64,8 +64,14 @@ group :development, :test do
   gem 'pry-rails'
 
   gem 'simplecov', require: false
+
+  gem 'vcr', '~> 2.9.3'
 end
 
 group :production do
   gem 'pg'
+end
+
+group :test do
+  gem 'webmock'
 end
