@@ -1,4 +1,7 @@
-FactoryGirl.define do
+FactoryGirl.define do  factory :shipment do
+    
+  end
+
 
   factory :category do
     name "Goats in Smoking Jackets"

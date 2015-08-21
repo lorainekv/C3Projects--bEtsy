@@ -2,7 +2,7 @@ require 'httparty'
 
 class OrdersController < ApplicationController
     before_action :order_page_access, only: [:index]
-    before_action :find_order, only: [:edit, :show, :update]
+    before_action :find_order, only: [:edit, :show, :update, :review]
 
   def index
     @merchant = session[:user_id]
@@ -25,10 +25,16 @@ class OrdersController < ApplicationController
   def show
     render :show
   end
-
+  
   def update
-    @order.update(create_params[:checkout])
-    if @order.order_items.length > 0
+    review
+    
+    @order.update(create_params[:destination])
+
+
+    if @order.order_items.length >= 10
+      dimensions = [8,8,8]
+      weight  = 5
       @order.status = 'paid'
       @order.save
 
@@ -38,27 +44,45 @@ class OrdersController < ApplicationController
       session[:order_id] = nil
       @time = Time.now.localtime
 
-      render '/orders/confirmation'
+      return '/orders/confirmation'
+    elsif @order.order_items.length <= 9 && !0
+      dimensions = [2,2,2]
+      weight  = 3
+      @order.status = 'paid'
+      @order.save
 
-    else
+      update_stock
+
+      # Clear the session's order_id so any new items get a new order
+      session[:order_id] = nil
+      @time = Time.now.localtime
+
+      return  '/orders/confirmation'
+    elsif @order.order_items.length == 0
       flash.now[:error] = "Order must have at least one item."
       render :edit
     end
   end
+  
 
   def find_order
     @order = Order.find(session[:order_id])
   end
+  
   def review
-    raise
+    shipment = {}
+    origin = []
+    destination = []
+    packages = []
 
-    # Order.order_items.each |item| do
-      # User.find(item.user.id)city, state, zipcode = origin
-      # Product.find(item.product_id).weight, dimensions = packages
-      #destination info in order/checkout form
-
-      # how to we match packages with users(nesting?)
-    # end
+     o = @order.order_items.first 
+     z = User.find(o.user_id)
+      
+      origin << z.city
+      
+      origin << z.state
+      
+      origin << z.zipcode
   end
 
   private
@@ -86,12 +110,10 @@ class OrdersController < ApplicationController
   end
   
 
-  # def shipping_rates
-  # end
 
 
   def create_params
-    params.permit(destination: [:name, :email, :address, :cc4, :expiry_date])
+    params.permit(destination: [:name, :email, :address, :cc4, :expiry_date, :city, :state, :zipcode])
   end
-
+  
 end
