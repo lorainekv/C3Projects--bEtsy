@@ -2,7 +2,7 @@ require 'httparty'
 
 class OrdersController < ApplicationController
     before_action :order_page_access, only: [:index]
-    before_action :find_order, only: [:edit, :show, :update, :review]
+    before_action :find_order, only: [:edit, :show, :update, :review,:shipping_rates]
 
     # dev shipping api uri
     DEV_SHIPPING_BASE_URI = "http://localhost:3001/shipments/"
@@ -30,52 +30,40 @@ class OrdersController < ApplicationController
   end
 
   def update
-    raise
-    # review
-    # render 'orders/confirmation'
-    @order.update(create_params[:destination])
-
-
-    if @order.order_items.length >= 10
-      dimensions = [8,8,8]
-      weight  = 5
+    
+    if @order.order_items.length > 0
+        
       @order.status = 'paid'
-      @order.save
+      @order.save  
 
       update_stock
-
+        
       # Clear the session's order_id so any new items get a new order
+
       session[:order_id] = nil
       @time = Time.now.localtime
 
-      return render '/orders/confirmation'
-    elsif @order.order_items.length <= 9 && !0
-      dimensions = [2,2,2]
-      weight  = 3
-      @order.status = 'paid'
-      @order.save
 
-      update_stock
-
-      # Clear the session's order_id so any new items get a new order
-      session[:order_id] = nil
-      @time = Time.now.localtime
-
-      return render '/orders/confirmation'
-    elsif @order.order_items.length == 0
+      render 'orders/confirmation'
+    else
       flash.now[:error] = "Order must have at least one item."
       render :edit
     end
+
   end
+
+
 
   def find_order
     @order = Order.find(session[:order_id])
   end
 
-  def review
-  end
+ 
 
   def shipping_rates
+    @order.update(create_params[:destination])
+    @order.save
+    
     shipment = {
       shipment: {
         origin: {
@@ -95,8 +83,7 @@ class OrdersController < ApplicationController
         packages: {
           weight: 5,
           dimensions: [12, 12, 6]
-        },
-        order_id: params[:destination][:order_id]
+        }
       }
     }
 

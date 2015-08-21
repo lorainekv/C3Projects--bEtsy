@@ -26,8 +26,6 @@
   <%= f.label :zipcode, "Zipcode" %>
   <%= f.text_field :zipcode, required: true,class: "form-control" %>
 
-  <%= f.hidden_field :order_id, value: @order.id %>
-
   <%= f.label :cc4, "Credit Card Number" %>
   <%=f.text_field :cc4, required: true,class: "form-control"  %>
 
