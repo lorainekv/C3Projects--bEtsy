@@ -2,8 +2,8 @@ class OrdersController < ApplicationController
   before_action :order_page_access, only: [:index]
   before_action :find_order, only: [:edit, :show, :update, :shipping, :update_shipping]
 
-  SHIP_URI = Rails.env.production? ? "later" : "http://localhost:3001/ship"
-  LOG_URI = Rails.env.production? ? "later" : "http://localhost:3001/log"
+  SHIP_URI = Rails.env.production? ? "http://adaships.herokuapp.com/ship" : "http://localhost:3001/ship"
+  LOG_URI = Rails.env.production? ? "http://adaships.herokuapp.com/log" : "http://localhost:3001/log"
 
   def index
     @merchant = session[:user_id]

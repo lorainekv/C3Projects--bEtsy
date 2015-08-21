@@ -3,8 +3,8 @@ require 'httparty'
 class OrderItemsController < ApplicationController
   before_action :find_order_item, only: [:edit, :quantity_update, :update, :destroy]
 
-  SHIP_EST_UPS = Rails.env.production? ? "later" : "http://localhost:3001/estimate/ups"
-  SHIP_EST_USPS = Rails.env.production? ? "later" : "http://localhost:3001/estimate/usps"
+  SHIP_EST_UPS = Rails.env.production? ? "http://adaships.herokuapp.com/estimate/ups" : "http://localhost:3001/estimate/ups"
+  SHIP_EST_USPS = Rails.env.production? ? "http://adaships.herokuapp.com/estimate/usps" : "http://localhost:3001/estimate/usps"
 
   def index
     @order_items = OrderItem.joins(:order).where('orders.status' => 'pending').where('orders.id' => session[:order_id])
