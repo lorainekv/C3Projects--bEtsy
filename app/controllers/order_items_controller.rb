@@ -7,8 +7,13 @@ class OrderItemsController < ApplicationController
   SHIP_EST_USPS = Rails.env.production? ? "https://adaships.herokuapp.com/estimate/usps" : "http://localhost:3001/estimate/usps"
 
   def index
-    @order_items = OrderItem.joins(:order).where('orders.status' => 'pending').where('orders.id' => session[:order_id])
-    @order = Order.find(session[:order_id])
+    if session[:order_id].nil?
+      flash.now[:error] = "There are no items in the cart."
+    else
+      @order = Order.find(session[:order_id])
+      @order_items = OrderItem.joins(:order).where('orders.status' => 'pending').where('orders.id' => session[:order_id])
+    end
+
   end
 
   def new
