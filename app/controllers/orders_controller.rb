@@ -52,13 +52,13 @@ class OrdersController < ApplicationController
   def shipping
     # get all shipping options by quering our api
     shipment = @order.shipment
-    all_shipment_options = HTTParty.post(SHIP_URI,
-                        :body => { "address1": "#{@order.address}",
-                                       "city":    "#{shipment.city}",
-                                       "state":   "#{shipment.state}",
-                                       "zip":     "#{shipment.zipcode}",
-                                       "country": "#{shipment.country}" }.to_json,
-                        :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} )
+    # all_shipment_options = HTTParty.post(SHIP_URI,
+    #                     :body => { "address1": "#{@order.address}",
+    #                                    "city":    "#{shipment.city}",
+    #                                    "state":   "#{shipment.state}",
+    #                                    "zip":     "#{shipment.zipcode}",
+    #                                    "country": "#{shipment.country}" }.to_json,
+    #                     :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} )
 
     @ups_options = all_shipment_options["ups"]
     @usps_options = all_shipment_options["usps"]
