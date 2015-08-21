@@ -18,4 +18,5 @@
 
   <p>Order placed on:  <%= pretty_time(@time) %>
   <p>Order Status: <%= @order.status.capitalize %></p>
-  <p>Total Purchase: $ <%= total  %>
+  <p>Shipping Costs: $ <%= params[:rate].to_f %></p>
+  <p>Total Purchase: $ <%= total + params[:rate].to_f  %>
