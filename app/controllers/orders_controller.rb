@@ -30,6 +30,7 @@ class OrdersController < ApplicationController
   end
 
   def update
+    raise
     # review
     # render 'orders/confirmation'
     @order.update(create_params[:destination])
