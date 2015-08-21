@@ -1,5 +1,5 @@
 <h2>Select Shipping Method</h2>
-<%= form_tag url: "DEV_SHIPPING_BASE_URI", class: "form-inline" do %>
+<%= form_tag url: "/receipt", class: "form-inline" do %>
   <% @rates.each do |rate| %>
 
     <% rate_service_name = rate["service_name"] %>

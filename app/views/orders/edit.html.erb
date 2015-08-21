@@ -28,11 +28,11 @@
 
   <%= f.hidden_field :order_id, value: @order.id %>
 
-  <%# f.label :cc4, "Credit Card Number" %>
-  <%#f.password_field :cc4, required: true,class: "form-control"  %>
+  <%= f.label :cc4, "Credit Card Number" %>
+  <%=f.text_field :cc4, required: true,class: "form-control"  %>
 
-  <%# f.label :expiry_date, "CC Expiration Date" %>
-  <%# f.date_select :expiry_date,
+  <%= f.label :expiry_date, "CC Expiration Date" %>
+  <%= f.date_select :expiry_date,
                     :discard_day => true,
                     :start_year => Date.today.year,
                     :end_year => (Date.today.year+10),
@@ -40,6 +40,6 @@
                     class: "form-control"  %>
 
 <br>
-  <%= f.submit "Review Order", class: "btn btn-primary" %>
+  <%= f.submit "Select Shipping", class: "btn btn-primary" %>
 </div>
 <% end %>

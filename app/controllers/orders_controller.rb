@@ -30,8 +30,8 @@ class OrdersController < ApplicationController
   end
 
   def update
-    review
-
+    # review
+    # render 'orders/confirmation'
     @order.update(create_params[:destination])
 
 
@@ -72,38 +72,9 @@ class OrdersController < ApplicationController
   end
 
   def review
-
   end
 
   def shipping_rates
-    # shipment = {
-    #   shipment: {
-    #     origin: {
-    #       name: "Petsy Inc",
-    #       address1: "3320 James Rd",
-    #       country: "US",
-    #       city: "Keuka Park",
-    #       state: "NY",
-    #       postal_code: "14478"
-    #     },
-    #     destination: {
-    #       name: "Ms. Customer",
-    #       address1: "4040 26th Ave SW",
-    #       country: "US",
-    #       city: "Seattle",
-    #       state: "WA",
-    #       postal_code: "98106"
-    #     },
-    #     packages: {
-    #       weight: 4,
-    #       dimensions: [12, 12, 12]
-    #     }
-    #   }
-    # }
-
-    num_items = Order.find(params[:destination][:order_id]).order_items.count
-
-
     shipment = {
       shipment: {
         origin: {
@@ -122,24 +93,11 @@ class OrdersController < ApplicationController
         },
         packages: {
           weight: 5,
-          dimensions: [24, 24, 24]
-        }
+          dimensions: [12, 12, 6]
+        },
+        order_id: params[:destination][:order_id]
       }
     }
-
-    # shipment = {}
-    # origin = []
-    # destination = []
-    # packages = []
-
-    #  o = @order.order_items.first
-    #  z = User.find(o.user_id)
-
-      # origin << z.city
-      #
-      # origin << z.state
-      #
-      # origin << z.zipcode
 
       # pass shipment object to API
       json_shipment = shipment.to_json
@@ -152,10 +110,14 @@ class OrdersController < ApplicationController
   private
 
   def order_complete
-    @order_item = OrderItem.find(params[:id])
-    order_id = order_item[:order_id]
-    @order_items = OrderItem.where("order_id = ?", order_id)
-    @order = Order.find(order_id)
+    @order = Order.find(params[:destination][:order_id])
+    @order_items = OrderItem.where("order_id = ?", @order.id)
+
+
+    # @order_item = OrderItem.find(params[:id])
+    # order_id = order_item[:order_id]
+    # @order_items = OrderItem.where("order_id = ?", order_id)
+    # @order = Order.find(order_id)
 
     all_items = @order_items.length
 
