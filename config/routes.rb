@@ -41,9 +41,6 @@ Rails.application.routes.draw do
 
   get '/shipping_rates' => "orders#shipping_rates"
   get '/shipping/:order_id/review' => "orders#review", as: 'review'
-  # get '/shipping/:order_id' =>  'orders#shipping_rates', as:'shipping_rates'
-
-
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
