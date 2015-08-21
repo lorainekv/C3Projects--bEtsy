@@ -1,5 +1,6 @@
-FactoryGirl.define do  factory :shipment do
-    
+FactoryGirl.define do
+  factory :shipment do
+
   end
 
 
