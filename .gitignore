@@ -37,3 +37,6 @@ build/
 *.log
 .DS_Store
 coverage/
+
+# Elsa's yikes
+vendor/
