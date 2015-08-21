@@ -4,6 +4,9 @@ class OrdersController < ApplicationController
     before_action :order_page_access, only: [:index]
     before_action :find_order, only: [:edit, :show, :update, :review]
 
+    # dev shipping api uri
+    DEV_SHIPPING_BASE_URI = "http://localhost:3001/shipments/"
+
   def index
     @merchant = session[:user_id]
     @orders = Order.includes(:order_items).where(order_items: { user_id: @merchant } )
@@ -25,10 +28,10 @@ class OrdersController < ApplicationController
   def show
     render :show
   end
-  
+
   def update
-    review
-    
+    # review
+    # render 'orders/confirmation'
     @order.update(create_params[:destination])
 
 
@@ -44,7 +47,7 @@ class OrdersController < ApplicationController
       session[:order_id] = nil
       @time = Time.now.localtime
 
-      return '/orders/confirmation'
+      return render '/orders/confirmation'
     elsif @order.order_items.length <= 9 && !0
       dimensions = [2,2,2]
       weight  = 3
@@ -57,41 +60,64 @@ class OrdersController < ApplicationController
       session[:order_id] = nil
       @time = Time.now.localtime
 
-      return  '/orders/confirmation'
+      return render '/orders/confirmation'
     elsif @order.order_items.length == 0
       flash.now[:error] = "Order must have at least one item."
       render :edit
     end
   end
-  
 
   def find_order
     @order = Order.find(session[:order_id])
   end
-  
-  def review
-    shipment = {}
-    origin = []
-    destination = []
-    packages = []
 
-     o = @order.order_items.first 
-     z = User.find(o.user_id)
-      
-      origin << z.city
-      
-      origin << z.state
-      
-      origin << z.zipcode
+  def review
+  end
+
+  def shipping_rates
+    shipment = {
+      shipment: {
+        origin: {
+          address1: "3320 James Rd",
+          country: "US",
+          city: "Keuka Park",
+          state: "NY",
+          postal_code: "14478"
+        },
+        destination: {
+          address1: params[:destination][:address],
+          country: "US",
+          city: params[:destination][:city],
+          state: params[:destination][:state],
+          postal_code: params[:destination][:zipcode]
+        },
+        packages: {
+          weight: 5,
+          dimensions: [12, 12, 6]
+        },
+        order_id: params[:destination][:order_id]
+      }
+    }
+
+      # pass shipment object to API
+      json_shipment = shipment.to_json
+
+      response = HTTParty.get(DEV_SHIPPING_BASE_URI, query: { json_data: json_shipment })
+      @rates = response
+    # raise
   end
 
   private
 
   def order_complete
-    @order_item = OrderItem.find(params[:id])
-    order_id = order_item[:order_id]
-    @order_items = OrderItem.where("order_id = ?", order_id)
-    @order = Order.find(order_id)
+    @order = Order.find(params[:destination][:order_id])
+    @order_items = OrderItem.where("order_id = ?", @order.id)
+
+
+    # @order_item = OrderItem.find(params[:id])
+    # order_id = order_item[:order_id]
+    # @order_items = OrderItem.where("order_id = ?", order_id)
+    # @order = Order.find(order_id)
 
     all_items = @order_items.length
 
@@ -108,12 +134,9 @@ class OrdersController < ApplicationController
         @order.save
       end
   end
-  
-
-
 
   def create_params
     params.permit(destination: [:name, :email, :address, :cc4, :expiry_date, :city, :state, :zipcode])
   end
-  
+
 end
