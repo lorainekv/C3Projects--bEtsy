@@ -31,7 +31,6 @@ class OrdersController < ApplicationController
     shipment.order_id = @order.id
     if shipment.save
       @order.update(update_order_params[:checkout])
-
       if @order.order_items.length > 0
         @order.status = 'paid'
         @order.save
@@ -66,7 +65,6 @@ class OrdersController < ApplicationController
 
   def update_shipping
     shipment = @order.shipment
-
     params["shipment"] = eval(params["shipment"])
     params["shipment"].delete("delivery_date")
 

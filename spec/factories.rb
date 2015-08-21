@@ -1,6 +1,10 @@
 FactoryGirl.define do
   factory :shipment do
-
+    address "123 Fake st"
+    city "Alhambra"
+    state "CA"
+    zipcode 91803
+    country "US"
   end
 
 

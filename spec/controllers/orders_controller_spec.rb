@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'pry'
+require 'support/vcr_setup'
 
 RSpec.describe OrdersController, type: :controller do
 
@@ -48,19 +49,32 @@ RSpec.describe OrdersController, type: :controller do
   describe "PATCH #update" do
     before(:each) do
       @product = create :product
-      @order = create :order, status: "pending"
+      @order = create :order, status: "pending", shipment_id: 1
       @item = create :order_item, order_id: @order.id, product_id: @product.id
+      @shipment = create :shipment, order_id: @order.id
       session[:order_id] = @order.id
     end
 
     it "changes the order status to 'paid'" do
-      patch :update, :id => @order.id, checkout: {status: "paid"}
+      patch :update, :id => @order.id, :checkout => {status: "paid", carrier: "UPS", delivery: "ground", delivery_date: "NONE", address: "123", city: "Alhambra", state: "CA", zipcode: 91803}
       @order.reload
       expect(@order.status).to eq("paid")
     end
+  end
+
+  describe "POST #update_shipping" do
+    before(:each) do
+      @order = create :order, status: "pending", shipment_id: 1
+      @shipment = create :shipment, order_id: @order.id
+
+      session[:order_id] = @order.id
+
+      VCR.use_cassette "audit_log" do
+        post :update_shipping, :id => @order.id, "shipment" => "{\"carrier\"=>\"UPS\", \"delivery\"=>\"UPS Ground\", \"delivery_date\"=>\"No delivery estimate available.\", \"shipping_cost\"=>\"14\"}"
+      end
+    end
 
     it "resets the session to nil when a transaction is complete" do
-      patch :update, :id => @order.id, checkout: {status: "paid"}
       expect(session[:order_id]).to eq(nil)
     end
   end
