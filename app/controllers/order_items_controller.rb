@@ -124,14 +124,10 @@ class OrderItemsController < ApplicationController
   private
 
   def new_order
-    # unless session[:order_id]
       @order = Order.create
       @order.status = "pending"
       session[:order_id] = @order.id
-    # end
   end
-
-private
 
   def order_complete
     @order_item = OrderItem.find(params[:id])
