@@ -79,10 +79,12 @@ class OrderItemsController < ApplicationController
     item_quantity = @order_items.count
     # In our world, each item weighs 10 oz. :)
     weight = item_quantity * 10
-    if params[:ups]
+
+    unless params[:ups] == "false"
       @ups_estimate = HTTParty.get(SHIP_EST_UPS + "/#{params[:zipcode]}/#{weight}")
     end
-    if params[:usps]
+
+    unless params[:usps] == "false"
       @usps_estimate = HTTParty.get(SHIP_EST_USPS + "/#{params[:zipcode]}/#{weight}")
     end
     render "index"
