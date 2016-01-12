@@ -1,0 +1,49 @@
+<h1>Shipping & Billing Information </h1>
+
+<% if flash.now[:error] %>
+  <div>
+    <%=flash.now[:error] %>
+  </div>
+<%end%>
+
+<%= form_for :checkout, url: "/receipt" do |f| %>
+<div class="form-group">
+
+  <%= f.label :name, "Name" %>
+  <%= f.text_field :name, required: true, class: "form-control" %>
+
+  <%= f.label :email, "Email" %>
+  <%= f.text_field :email, required: true, class: "form-control"  %>
+
+  <%= f.label :address, "Address1" %>
+  <%= f.text_field :address, required: true, class: "form-control"  %>
+
+  <%= f.label :address2, "Address2" %>
+  <%= f.text_field :address2, class: "form-control"  %>
+
+  <%= f.label :city, "City" %>
+  <%= f.text_field :city, required: true, class: "form-control"  %>
+
+  <%= f.label :state, "State" %>
+  <%= f.text_field :state, required: true, class: "form-control"  %>
+
+  <%= f.label :zipcode, "Zipcode" %>
+  <%= f.text_field :zipcode, required: true, class: "form-control"  %>
+
+  <%= f.hidden_field :country, value: "US" %>
+
+  <%= f.label :cc4, "Credit Card Number" %>
+  <%= f.password_field :cc4, required: true,class: "form-control"  %>
+
+  <%= f.label :expiry_date, "CC Expiration Date" %>
+  <%= f.date_select :expiry_date,
+                    :discard_day => true,
+                    :start_year => Date.today.year,
+                    :end_year => (Date.today.year+10),
+                    :use_month_numbers => true,
+                    class: "form-control"  %>
+
+<br>
+  <%= f.submit "Continue", class: "btn btn-success" %>
+</div>
+<% end %>

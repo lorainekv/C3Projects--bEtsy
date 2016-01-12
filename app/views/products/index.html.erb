@@ -1,0 +1,14 @@
+<h1>All Products</h1>
+<div class="row">
+<% @products.each do |product| %>
+  <div class="col-md-3">
+     <div class="thumbnail">
+  <p><%= link_to product.name, product_path(product) %></p>
+  <p><%= image_tag(product.photo_url, class: "img-rounded", size: "160x140" ) %></p>
+  <p>Price: $<%= product.price %></p>
+  <p>In Stock: <%= product.stock %></p>
+  <p>Sold By: <%= link_to product.user.username, user_path(product.user_id)%></p>
+   </div>
+ </div>
+<% end %>
+</div>

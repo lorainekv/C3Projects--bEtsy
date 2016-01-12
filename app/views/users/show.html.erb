@@ -1,0 +1,22 @@
+<!--
+  <% @user.products.each do |product| %>
+    <p><%= link_to product.name, product_path(product.id) %></p>
+    <p><%= image_tag(product.photo_url)%></p>
+    <p>In Stock: <%= product.stock %></p>
+    <p>Price: $<%= product.price %></p>
+  <% end %> -->
+
+
+<h1><%= @user.username  %></h1>
+<div class="row">
+<% @products.each do |product| %>
+  <div class="col-md-3">
+     <div class="thumbnail">
+  <p><%= link_to product.name, product_path(product) %></p>
+  <p><%= image_tag(product.photo_url, class: "img-rounded", size: "160x140" ) %></p>
+  <p>Price: $<%= product.price %></p>
+  <p>In Stock: <%= product.stock %></p>
+   </div>
+ </div>
+<% end %>
+</div>

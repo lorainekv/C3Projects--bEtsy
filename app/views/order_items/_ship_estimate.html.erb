@@ -1,0 +1,38 @@
+<div class="container-fluid">
+
+  <% if ups_estimate %>
+    <h3>UPS Shipping Estimates:</h3>
+    <table class="table table-hover">
+      <tr>
+        <th>Delivery Type</th>
+        <th>Estimated Cost</th>
+      </tr>
+
+      <% ups_estimate.each do |est| %>
+      <tr>
+        <td><%= est["delivery"] %></td>
+        <td><%= number_to_currency(est["shipping_cost"]) %></td>
+      </tr>
+      <% end %>
+
+    </table>
+  <% end %>
+
+  <% if usps_estimate %>
+    <h3>US Postal Service Shipping Estimates:</h3>
+    <table class="table table-hover">
+      <tr>
+        <th>Delivery Type</th>
+        <th>Estimated Cost</th>
+      </tr>
+
+      <% usps_estimate.each do |est| %>
+      <tr>
+        <td><%= est["delivery"] %></td>
+        <td><%= number_to_currency(est["shipping_cost"]) %></td>
+      </tr>
+      <% end %>
+
+    </table>
+  <% end %>
+</div>
